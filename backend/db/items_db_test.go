@@ -120,11 +120,11 @@ func TestGetAttributeGroupings(t *testing.T) {
 
 func TestItemNameExists(t *testing.T) {
 	setup()
-	exists := itemNameExists("Item1")
+	exists := itemNameExistsInDb("Item1")
 	if !exists {
 		t.Fatalf("expected item name to exist")
 	}
-	exists = itemNameExists("NonExistentItem")
+	exists = itemNameExistsInDb("NonExistentItem")
 	if exists {
 		t.Fatalf("expected item name to not exist")
 	}

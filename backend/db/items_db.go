@@ -64,7 +64,7 @@ func GetItemById(id uint64) (fetched_item *types.Item, err error) {
 
 func AddItem(item types.Item) (added_item types.Item, err error) {
 	item, ok := items[item.Id]
-	if ok || itemNameExists(item.Name) {
+	if ok || itemNameExistsInDb(item.Name) {
 		return item, fmt.Errorf("item already exists in system: %s [%d]", item.Name, item.Id)
 	}
 
@@ -115,7 +115,7 @@ func GetAttributeGroupings() (attributeGroupingList map[uint64]types.AttributeGr
 	return attributeGroupings, nil
 }
 
-func itemNameExists(name string) bool {
+func itemNameExistsInDb(name string) bool {
 	for _, item := range items {
 		if item.Name == name {
 			return true

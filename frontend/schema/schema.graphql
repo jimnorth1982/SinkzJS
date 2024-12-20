@@ -1,0 +1,60 @@
+type ItemType {
+  id: ID!
+  name: String!
+}
+
+type Rarity {
+  id: ID!
+  name: String!
+}
+
+type Image {
+  id: ID!
+  url: String!
+}
+
+type Attribute {
+  id: ID!
+  name: String!
+  lowValue: Int!
+  highValue: Int!
+  attributeGrouping: AttributeGrouping!
+}
+
+type AttributeGrouping {
+  id: ID!
+  name: String!
+}
+
+type Item {
+  id: ID!
+  name: String!
+  requiredLevel: Int!
+  itemType: ItemType!
+  rarity: Rarity!
+  image: Image!
+  attributes: [Attribute]
+}
+
+type Query {
+  items: [Item!]!
+  item(id: ID!): Item
+  itemTypes: [ItemType!]!
+  rarities: [Rarity!]!
+}
+
+type Mutation {
+  addItem(name: String!, requiredLevel: Int!, itemTypeId: ID!, rarityId: ID!, imageUrl: String!, attributes: [AttributeInput]): Item!
+}
+
+input AttributeInput {
+  name: String!
+  lowValue: Int!
+  highValue: Int!
+  attributeGroupingId: ID!
+}
+
+schema {
+  query: Query
+  mutation: Mutation
+}

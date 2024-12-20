@@ -42,7 +42,7 @@ func GetItemById(c echo.Context) error {
 		fmt.Println("Error:", err)
 		response := map[string]interface{}{
 			"message":        fmt.Sprintf("invalid format for parameter [Id]: %s", c.Param("id")),
-			"request_status": http.StatusNotFound,
+			"request_status": http.StatusBadRequest,
 			"data":           nil,
 		}
 		return c.JSON(http.StatusBadRequest, response)
@@ -55,7 +55,7 @@ func GetItemById(c echo.Context) error {
 			"request_status": http.StatusNotFound,
 			"data":           nil,
 		}
-		return c.JSON(http.StatusBadRequest, response)
+		return c.JSON(http.StatusNotFound, response)
 	}
 
 	response := map[string]interface{}{
@@ -100,5 +100,100 @@ func AddItemHandler(c echo.Context) error {
 		"data":    added_item,
 	}
 
+	return c.JSON(http.StatusOK, response)
+}
+
+func GetRarities(c echo.Context) error {
+	rarities, err := db.GetRarities()
+
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]interface{}{
+			"message":        err.Error(),
+			"request_status": http.StatusBadRequest,
+			"data":           nil,
+		})
+	}
+
+	response := map[string]interface{}{
+		"message":        "rarities retrieved successfully",
+		"request_status": http.StatusOK,
+		"data":           rarities,
+	}
+	return c.JSON(http.StatusOK, response)
+}
+
+func GetItemTypes(c echo.Context) error {
+	itemTypes, err := db.GetItemTypes()
+
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]interface{}{
+			"message":        err.Error(),
+			"request_status": http.StatusBadRequest,
+			"data":           nil,
+		})
+	}
+
+	response := map[string]interface{}{
+		"message":        "item types retrieved successfully",
+		"request_status": http.StatusOK,
+		"data":           itemTypes,
+	}
+	return c.JSON(http.StatusOK, response)
+}
+
+func GetImages(c echo.Context) error {
+	images, err := db.GetImages()
+
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]interface{}{
+			"message":        err.Error(),
+			"request_status": http.StatusBadRequest,
+			"data":           nil,
+		})
+	}
+
+	response := map[string]interface{}{
+		"message":        "images retrieved successfully",
+		"request_status": http.StatusOK,
+		"data":           images,
+	}
+	return c.JSON(http.StatusOK, response)
+}
+
+func GetAttributes(c echo.Context) error {
+	attributes, err := db.GetAttributes()
+
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]interface{}{
+			"message":        err.Error(),
+			"request_status": http.StatusBadRequest,
+			"data":           nil,
+		})
+	}
+
+	response := map[string]interface{}{
+		"message":        "attributes retrieved successfully",
+		"request_status": http.StatusOK,
+		"data":           attributes,
+	}
+	return c.JSON(http.StatusOK, response)
+}
+
+func GetAttributeGroupings(c echo.Context) error {
+	attributeGroupings, err := db.GetAttributeGroupings()
+
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]interface{}{
+			"message":        err.Error(),
+			"request_status": http.StatusBadRequest,
+			"data":           nil,
+		})
+	}
+
+	response := map[string]interface{}{
+		"message":        "attribute groupings retrieved successfully",
+		"request_status": http.StatusOK,
+		"data":           attributeGroupings,
+	}
 	return c.JSON(http.StatusOK, response)
 }

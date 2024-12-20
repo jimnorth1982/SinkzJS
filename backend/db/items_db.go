@@ -16,10 +16,13 @@ var rarities = map[uint64]types.Rarity{}
 var images = map[uint64]types.Image{}
 var attributes = map[uint64]types.Attribute{}
 var attributeGroupings = map[uint64]types.AttributeGrouping{}
+var loaded = false
 
 func LoadData() {
-	// Load data from JSON file
-	var jsonFile, err = os.Open("data/data.json")
+	if loaded {
+		return
+	}
+	var jsonFile, err = os.Open("data/item_data.json")
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -40,6 +43,7 @@ func LoadData() {
 			attributeGroupings[attribute.AttributeGrouping.Id] = attribute.AttributeGrouping
 		}
 	}
+	loaded = true
 }
 
 func GetItems() (itemList map[uint64]types.Item, err error) {

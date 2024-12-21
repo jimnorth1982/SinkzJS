@@ -71,8 +71,10 @@ func AddItem(c echo.Context) error {
 	var item = new(types.Item)
 
 	if err := c.Bind(item); err != nil {
-		data := map[string]interface{}{
-			"message": err.Error(),
+		data := types.ItemsResponse{
+			Message:    err.Error(),
+			Items:      nil,
+			HttpStatus: http.StatusBadRequest,
 		}
 		return c.JSON(http.StatusBadRequest, data)
 	}
@@ -80,8 +82,10 @@ func AddItem(c echo.Context) error {
 	validate := validator.New()
 
 	if err := validate.Struct(item); err != nil {
-		data := map[string]interface{}{
-			"message": err.Error(),
+		data := types.ItemsResponse{
+			Message:    err.Error(),
+			Items:      nil,
+			HttpStatus: http.StatusBadRequest,
 		}
 		return c.JSON(http.StatusBadRequest, data)
 	}
@@ -89,15 +93,18 @@ func AddItem(c echo.Context) error {
 	added_item, err := db.AddItem(*item)
 
 	if err != nil {
-		data := map[string]interface{}{
-			"message": err.Error(),
+		data := types.ItemsResponse{
+			Message:    err.Error(),
+			Items:      nil,
+			HttpStatus: http.StatusBadRequest,
 		}
 		return c.JSON(http.StatusBadRequest, data)
 	}
 
-	response := map[string]interface{}{
-		"message": "item added successfully",
-		"data":    added_item,
+	response := types.ItemsResponse{
+		Message:    "item added successfully",
+		Items:      []types.Item{added_item},
+		HttpStatus: http.StatusCreated,
 	}
 
 	return c.JSON(http.StatusOK, response)

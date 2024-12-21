@@ -8,9 +8,5 @@ import (
 func Routes(e *echo.Echo) {
 	e.GET("/items", controllers.GetAllItems)
 	e.GET("/items/:id", controllers.GetItemById)
-	e.POST("/items", controllers.AddItemHandler)
-	e.GET("/item_types", controllers.GetItemTypes)
-	e.GET("/rarities", controllers.GetRarities)
-	e.GET("/images", controllers.GetImages)
-	e.GET("/attributes", controllers.GetAttributes)
+	e.POST("/items", controllers.AddItem)
 }

@@ -37,3 +37,9 @@ type AttributeGrouping struct {
 	Id   uint64 `json:"id"`
 	Name string `json:"name"`
 }
+
+type ItemsResponse struct {
+	Items      []Item `json:"items"`
+	Message    string `json:"message"`
+	HttpStatus int    `json:"request_status"`
+}

@@ -38,3 +38,10 @@
  * @property {string} name
  * @property {number} requiredLevel
  */
+
+/**
+ * @typedef {Object} ItemsResponse
+ * @property {Array<Item>} items
+ * @property {string} http_status
+ * @property {string} message
+ */

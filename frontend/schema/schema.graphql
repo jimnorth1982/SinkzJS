@@ -38,13 +38,6 @@ type Item {
 
 type Query {
   items: [Item!]!
-  item(id: ID!): Item
-  itemTypes: [ItemType!]!
-  rarities: [Rarity!]!
-}
-
-type Mutation {
-  addItem(name: String!, requiredLevel: Int!, itemTypeId: ID!, rarityId: ID!, imageUrl: String!, attributes: [AttributeInput]): Item!
 }
 
 input AttributeInput {
@@ -56,5 +49,4 @@ input AttributeInput {
 
 schema {
   query: Query
-  mutation: Mutation
 }

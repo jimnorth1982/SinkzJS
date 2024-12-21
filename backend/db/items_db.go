@@ -46,12 +46,16 @@ func LoadData() {
 	loaded = true
 }
 
-func GetItems() (itemList map[uint64]types.Item, err error) {
+func GetItems() (itemArray []types.Item, err error) {
 	if len(items) == 0 {
 		return nil, errors.New("no items found")
 	}
+	itemList := make([]types.Item, 0, len(items))
 
-	return items, nil
+	for _, item := range items {
+		itemList = append(itemList, item)
+	}
+	return itemList, nil
 }
 
 func GetItemById(id uint64) (fetched_item *types.Item, err error) {

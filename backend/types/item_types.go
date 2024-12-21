@@ -41,5 +41,5 @@ type AttributeGrouping struct {
 type ItemsResponse struct {
 	Items      []Item `json:"items"`
 	Message    string `json:"message"`
-	HttpStatus int    `json:"request_status"`
+	HttpStatus int    `json:"http_status"`
 }

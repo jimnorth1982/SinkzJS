@@ -1,16 +1,23 @@
-const { ApolloServer } = require('@apollo/server');
-const { expressMiddleware } = require('@apollo/server/express4');
-const { ApolloServerPluginDrainHttpServer } = require('@apollo/server/plugin/drainHttpServer');
-const express = require('express');
-const http = require('http');
-const cors = require('cors');
-const { readFileSync } = require('fs');
-const { join } = require('path');
+import { ApolloServer } from "@apollo/server";
+import { expressMiddleware } from "@apollo/server/express4";
+import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
+import express from "express";
+import http from "http";
+import cors from "cors";
+import { readFileSync } from "fs";
+import { fileURLToPath } from 'url';
+import { dirname, join } from "path";
 
-const typeDefs = readFileSync(join(__dirname, '../schema/schema.graphql'), 'utf8');
-const resolvers = require('./resolvers');
+import { resolvers } from "./resolvers.js";
 
-async function startApolloServer(port = 4001) {
+const pathUrl = dirname(fileURLToPath(import.meta.url));
+
+const typeDefs = readFileSync(
+  join(pathUrl, "../schema/schema.graphql"),
+  "utf8"
+);
+
+export async function startApolloServer(port = 4001) {
   const app = express();
   const httpServer = http.createServer(app);
 
@@ -23,17 +30,15 @@ async function startApolloServer(port = 4001) {
   await server.start();
 
   app.use(
-    '/',
+    "/",
     cors(),
     express.json(),
     expressMiddleware(server, {
       context: async ({ req }) => ({ token: req.headers.token }),
-    }),
+    })
   );
 
   httpServer.listen({ port }, () => {
     console.log(`🚀 Server ready at http://localhost:${port}`);
   });
 }
-
-module.exports = { startApolloServer };

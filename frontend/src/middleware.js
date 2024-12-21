@@ -1,5 +1,4 @@
-const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
-
+import fetch from "node-fetch";
 
 /**
  * Fetch data from a given URL.
@@ -7,7 +6,7 @@ const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch
  * @returns {Promise<ItemsResponse>} The fetched data.
  * @throws Will throw an error if the fetch operation fails.
  */
-async function fetchItemData(url) {
+export async function fetchItemData(url) {
   try {
     const response = await fetch(url);
     if (!response.ok) {
@@ -16,9 +15,7 @@ async function fetchItemData(url) {
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error('Error fetching data:', error);
+    console.error("Error fetching data:", error);
     throw error;
   }
 }
-
-module.exports = { fetchData: fetchItemData };

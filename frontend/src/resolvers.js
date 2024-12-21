@@ -1,13 +1,15 @@
-const { itemsEndpoint } = require("./config");
-const middleware = require("./middleware");
+import { fetchItemData } from "./middleware.js";
+import { itemsEndpoint } from "./config.js";
 
-const resolvers = {
+export const resolvers = {
   Query: {
     items: async () => {
-      const rawApiResponse = await middleware.fetchData(itemsEndpoint());
+      const rawApiResponse = await fetchItemData(itemsEndpoint()).catch(
+        (error) => {
+          return { message: error, items: [] };
+        }
+      );
       return rawApiResponse.items;
     },
   },
 };
-
-module.exports = resolvers;

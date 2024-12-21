@@ -40,13 +40,6 @@ type Query {
   items: [Item!]!
 }
 
-input AttributeInput {
-  name: String!
-  lowValue: Int!
-  highValue: Int!
-  attributeGroupingId: ID!
-}
-
 schema {
   query: Query
 }

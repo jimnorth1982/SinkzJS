@@ -1,6 +1,4 @@
-const serverUrl = 'http://localhost:8080';
-const itemsPath = '/items';
+const serverUrl = "http://localhost:8080";
+const itemsPath = "/items";
 
-const itemsEndpoint = () => `${serverUrl}${itemsPath}`;
-
-export { itemsEndpoint };
+export const itemsEndpoint = () => `${serverUrl}${itemsPath}`;

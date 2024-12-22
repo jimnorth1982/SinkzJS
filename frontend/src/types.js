@@ -4,7 +4,6 @@
  * @property {string} name
  */
 
-
 /**
  * @typedef {Object} Rarity
  * @property {string} id

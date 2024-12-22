@@ -5,7 +5,7 @@ import express from "express";
 import http from "http";
 import cors from "cors";
 import { readFileSync } from "fs";
-import { fileURLToPath } from 'url';
+import { fileURLToPath } from "url";
 import { dirname, join } from "path";
 
 import { resolvers } from "./resolvers.js";

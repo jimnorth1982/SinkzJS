@@ -1,540 +1,580 @@
 [
   {
     "id": 1,
-    "name": "Caster's Wand of Speed",
-    "required_level": 10,
-    "item_type": "Wand",
+    "name": "Magic Wand",
+    "required_level": 1,
+    "item_type": {
+      "id": 1,
+      "name": "Wand"
+    },
     "rarity": {
-      "id": 2,
-      "name": "Magic"
+      "id": 1,
+      "name": "Common"
     },
     "image": {
       "id": 1,
-      "url": "http://example.com/images/casters_wand_of_speed.png"
+      "url": "http://example.com/image1.png"
     },
-    "item_attributes": [
+    "attributes": [
       {
         "id": 1,
-        "name": "Damage",
+        "name": "Power",
         "low_value": 10,
         "high_value": 20,
         "attribute_grouping": {
           "id": 1,
-          "name": "Offensive",
-          "attributes": []
+          "name": "Magic"
         }
       }
     ]
   },
   {
     "id": 2,
-    "name": "Guardian's Body Armour of Fortitude",
-    "required_level": 5,
-    "item_type": "Body Armour",
+    "name": "Enchanted Sword",
+    "required_level": 2,
+    "item_type": {
+      "id": 2,
+      "name": "Sword"
+    },
     "rarity": {
-      "id": 1,
-      "name": "Base"
+      "id": 2,
+      "name": "Rare"
     },
     "image": {
       "id": 2,
-      "url": "http://example.com/images/guardians_body_armour_of_fortitude.png"
+      "url": "http://example.com/image2.png"
     },
-    "item_attributes": [
+    "attributes": [
       {
         "id": 2,
-        "name": "Defense",
-        "low_value": 5,
-        "high_value": 15,
+        "name": "Sharpness",
+        "low_value": 15,
+        "high_value": 25,
         "attribute_grouping": {
           "id": 2,
-          "name": "Defensive",
-          "attributes": []
+          "name": "Physical"
         }
       }
     ]
   },
   {
     "id": 3,
-    "name": "Swift Boots of the Eagle",
-    "required_level": 8,
-    "item_type": "Boots",
-    "rarity": {
+    "name": "Guardian's Body Armour of Fortitude",
+    "required_level": 5,
+    "item_type": {
       "id": 3,
-      "name": "Rare"
+      "name": "Body Armour"
+    },
+    "rarity": {
+      "id": 1,
+      "name": "Base"
     },
     "image": {
       "id": 3,
-      "url": "http://example.com/images/swift_boots_of_the_eagle.png"
+      "url": "http://example.com/images/guardians_body_armour_of_fortitude.png"
     },
-    "item_attributes": [
+    "attributes": [
       {
         "id": 3,
-        "name": "Agility",
-        "low_value": 7,
-        "high_value": 14,
+        "name": "Defense",
+        "low_value": 5,
+        "high_value": 15,
         "attribute_grouping": {
-          "id": 3,
-          "name": "Physical",
-          "attributes": []
+          "id": 2,
+          "name": "Defensive"
         }
       }
     ]
   },
   {
     "id": 4,
-    "name": "Warrior's Gloves of Strength",
-    "required_level": 12,
-    "item_type": "Gloves",
-    "rarity": {
+    "name": "Mystic Staff",
+    "required_level": 3,
+    "item_type": {
       "id": 4,
-      "name": "Unique"
+      "name": "Staff"
+    },
+    "rarity": {
+      "id": 3,
+      "name": "Epic"
     },
     "image": {
       "id": 4,
-      "url": "http://example.com/images/warriors_gloves_of_strength.png"
+      "url": "http://example.com/image4.png"
     },
-    "item_attributes": [
+    "attributes": [
       {
         "id": 4,
-        "name": "Dexterity",
-        "low_value": 5,
-        "high_value": 10,
+        "name": "Magic Power",
+        "low_value": 20,
+        "high_value": 40,
         "attribute_grouping": {
-          "id": 4,
-          "name": "Physical",
-          "attributes": []
+          "id": 1,
+          "name": "Magic"
         }
       }
     ]
   },
   {
     "id": 5,
-    "name": "Sage's Helmet of Wisdom",
-    "required_level": 15,
-    "item_type": "Helmet",
+    "name": "Dragon Shield",
+    "required_level": 4,
+    "item_type": {
+      "id": 5,
+      "name": "Shield"
+    },
     "rarity": {
-      "id": 2,
-      "name": "Magic"
+      "id": 4,
+      "name": "Legendary"
     },
     "image": {
       "id": 5,
-      "url": "http://example.com/images/sages_helmet_of_wisdom.png"
+      "url": "http://example.com/image5.png"
     },
-    "item_attributes": [
+    "attributes": [
       {
         "id": 5,
-        "name": "Intelligence",
-        "low_value": 12,
-        "high_value": 25,
+        "name": "Durability",
+        "low_value": 30,
+        "high_value": 50,
         "attribute_grouping": {
-          "id": 5,
-          "name": "Mental",
-          "attributes": []
+          "id": 2,
+          "name": "Defensive"
         }
       }
     ]
   },
   {
     "id": 6,
-    "name": "Apprentice's Wand of Fire",
-    "required_level": 20,
-    "item_type": "Wand",
+    "name": "Healing Potion",
+    "required_level": 1,
+    "item_type": {
+      "id": 6,
+      "name": "Potion"
+    },
     "rarity": {
       "id": 1,
-      "name": "Base"
+      "name": "Common"
     },
     "image": {
       "id": 6,
-      "url": "http://example.com/images/apprentices_wand_of_fire.png"
+      "url": "http://example.com/image6.png"
     },
-    "item_attributes": [
+    "attributes": [
       {
         "id": 6,
-        "name": "Damage",
-        "low_value": 20,
-        "high_value": 40,
+        "name": "Healing",
+        "low_value": 10,
+        "high_value": 20,
         "attribute_grouping": {
-          "id": 6,
-          "name": "Offensive",
-          "attributes": []
+          "id": 3,
+          "name": "Support"
         }
       }
     ]
   },
   {
     "id": 7,
-    "name": "Knight's Body Armour of Valor",
-    "required_level": 18,
-    "item_type": "Body Armour",
+    "name": "Fire Sword",
+    "required_level": 3,
+    "item_type": {
+      "id": 2,
+      "name": "Sword"
+    },
     "rarity": {
       "id": 3,
-      "name": "Rare"
+      "name": "Epic"
     },
     "image": {
       "id": 7,
-      "url": "http://example.com/images/knights_body_armour_of_valor.png"
+      "url": "http://example.com/image7.png"
     },
-    "item_attributes": [
+    "attributes": [
       {
         "id": 7,
-        "name": "Defense",
-        "low_value": 15,
-        "high_value": 30,
+        "name": "Fire Damage",
+        "low_value": 25,
+        "high_value": 35,
         "attribute_grouping": {
-          "id": 7,
-          "name": "Defensive",
-          "attributes": []
+          "id": 1,
+          "name": "Magic"
         }
       }
     ]
   },
   {
     "id": 8,
-    "name": "Rogue's Boots of Stealth",
-    "required_level": 7,
-    "item_type": "Boots",
+    "name": "Ice Shield",
+    "required_level": 2,
+    "item_type": {
+      "id": 5,
+      "name": "Shield"
+    },
     "rarity": {
-      "id": 4,
-      "name": "Unique"
+      "id": 2,
+      "name": "Rare"
     },
     "image": {
       "id": 8,
-      "url": "http://example.com/images/rogues_boots_of_stealth.png"
+      "url": "http://example.com/image8.png"
     },
-    "item_attributes": [
+    "attributes": [
       {
         "id": 8,
-        "name": "Agility",
-        "low_value": 5,
-        "high_value": 10,
+        "name": "Ice Resistance",
+        "low_value": 20,
+        "high_value": 30,
         "attribute_grouping": {
-          "id": 8,
-          "name": "Physical",
-          "attributes": []
+          "id": 2,
+          "name": "Defensive"
         }
       }
     ]
   },
   {
     "id": 9,
-    "name": "Mage's Gloves of Arcana",
-    "required_level": 25,
-    "item_type": "Gloves",
+    "name": "Thunder Hammer",
+    "required_level": 4,
+    "item_type": {
+      "id": 7,
+      "name": "Hammer"
+    },
     "rarity": {
-      "id": 2,
-      "name": "Magic"
+      "id": 4,
+      "name": "Legendary"
     },
     "image": {
       "id": 9,
-      "url": "http://example.com/images/mages_gloves_of_arcana.png"
+      "url": "http://example.com/image9.png"
     },
-    "item_attributes": [
+    "attributes": [
       {
         "id": 9,
-        "name": "Dexterity",
-        "low_value": 25,
-        "high_value": 50,
+        "name": "Thunder Damage",
+        "low_value": 35,
+        "high_value": 45,
         "attribute_grouping": {
-          "id": 9,
-          "name": "Physical",
-          "attributes": []
+          "id": 1,
+          "name": "Magic"
         }
       }
     ]
   },
   {
     "id": 10,
-    "name": "Scholar's Helmet of Insight",
-    "required_level": 14,
-    "item_type": "Helmet",
+    "name": "Stealth Dagger",
+    "required_level": 2,
+    "item_type": {
+      "id": 8,
+      "name": "Dagger"
+    },
     "rarity": {
-      "id": 1,
-      "name": "Base"
+      "id": 2,
+      "name": "Rare"
     },
     "image": {
       "id": 10,
-      "url": "http://example.com/images/scholars_helmet_of_insight.png"
+      "url": "http://example.com/image10.png"
     },
-    "item_attributes": [
+    "attributes": [
       {
         "id": 10,
-        "name": "Intelligence",
-        "low_value": 10,
-        "high_value": 20,
+        "name": "Stealth",
+        "low_value": 15,
+        "high_value": 25,
         "attribute_grouping": {
-          "id": 10,
-          "name": "Mental",
-          "attributes": []
+          "id": 4,
+          "name": "Stealth"
         }
       }
     ]
   },
   {
     "id": 11,
-    "name": "Sorcerer's Wand of Power",
-    "required_level": 16,
-    "item_type": "Wand",
+    "name": "Healing Staff",
+    "required_level": 3,
+    "item_type": {
+      "id": 4,
+      "name": "Staff"
+    },
     "rarity": {
       "id": 3,
-      "name": "Rare"
+      "name": "Epic"
     },
     "image": {
       "id": 11,
-      "url": "http://example.com/images/sorcerers_wand_of_power.png"
+      "url": "http://example.com/image11.png"
     },
-    "item_attributes": [
+    "attributes": [
       {
         "id": 11,
-        "name": "Damage",
-        "low_value": 15,
-        "high_value": 30,
+        "name": "Healing Power",
+        "low_value": 20,
+        "high_value": 40,
         "attribute_grouping": {
-          "id": 11,
-          "name": "Offensive",
-          "attributes": []
+          "id": 3,
+          "name": "Support"
         }
       }
     ]
   },
   {
     "id": 12,
-    "name": "Champion's Body Armour of Glory",
-    "required_level": 1,
-    "item_type": "Body Armour",
+    "name": "Guardian Helmet",
+    "required_level": 2,
+    "item_type": {
+      "id": 9,
+      "name": "Helmet"
+    },
     "rarity": {
-      "id": 4,
-      "name": "Unique"
+      "id": 1,
+      "name": "Common"
     },
     "image": {
       "id": 12,
-      "url": "http://example.com/images/champions_body_armour_of_glory.png"
+      "url": "http://example.com/image12.png"
     },
-    "item_attributes": [
+    "attributes": [
       {
         "id": 12,
         "name": "Defense",
-        "low_value": 5,
-        "high_value": 10,
+        "low_value": 10,
+        "high_value": 20,
         "attribute_grouping": {
-          "id": 12,
-          "name": "Defensive",
-          "attributes": []
+          "id": 2,
+          "name": "Defensive"
         }
       }
     ]
   },
   {
     "id": 13,
-    "name": "Hunter's Boots of Agility",
-    "required_level": 1,
-    "item_type": "Boots",
+    "name": "Mystic Robe",
+    "required_level": 3,
+    "item_type": {
+      "id": 10,
+      "name": "Robe"
+    },
     "rarity": {
-      "id": 2,
-      "name": "Magic"
+      "id": 3,
+      "name": "Epic"
     },
     "image": {
       "id": 13,
-      "url": "http://example.com/images/hunters_boots_of_agility.png"
+      "url": "http://example.com/image13.png"
     },
-    "item_attributes": [
+    "attributes": [
       {
         "id": 13,
-        "name": "Agility",
-        "low_value": 5,
-        "high_value": 10,
+        "name": "Magic Resistance",
+        "low_value": 20,
+        "high_value": 30,
         "attribute_grouping": {
-          "id": 13,
-          "name": "Physical",
-          "attributes": []
+          "id": 2,
+          "name": "Defensive"
         }
       }
     ]
   },
   {
     "id": 14,
-    "name": "Thief's Gloves of Dexterity",
-    "required_level": 5,
-    "item_type": "Gloves",
+    "name": "Warrior Boots",
+    "required_level": 1,
+    "item_type": {
+      "id": 11,
+      "name": "Boots"
+    },
     "rarity": {
       "id": 1,
-      "name": "Base"
+      "name": "Common"
     },
     "image": {
       "id": 14,
-      "url": "http://example.com/images/thiefs_gloves_of_dexterity.png"
+      "url": "http://example.com/image14.png"
     },
-    "item_attributes": [
+    "attributes": [
       {
         "id": 14,
-        "name": "Dexterity",
+        "name": "Speed",
         "low_value": 5,
-        "high_value": 10,
+        "high_value": 15,
         "attribute_grouping": {
-          "id": 14,
-          "name": "Physical",
-          "attributes": []
+          "id": 5,
+          "name": "Agility"
         }
       }
     ]
   },
   {
     "id": 15,
-    "name": "Priest's Helmet of Faith",
-    "required_level": 8,
-    "item_type": "Helmet",
+    "name": "Assassin's Cloak",
+    "required_level": 4,
+    "item_type": {
+      "id": 12,
+      "name": "Cloak"
+    },
     "rarity": {
-      "id": 3,
-      "name": "Rare"
+      "id": 4,
+      "name": "Legendary"
     },
     "image": {
       "id": 15,
-      "url": "http://example.com/images/priests_helmet_of_faith.png"
+      "url": "http://example.com/image15.png"
     },
-    "item_attributes": [
+    "attributes": [
       {
         "id": 15,
-        "name": "Intelligence",
-        "low_value": 8,
-        "high_value": 16,
+        "name": "Stealth",
+        "low_value": 25,
+        "high_value": 35,
         "attribute_grouping": {
-          "id": 15,
-          "name": "Mental",
-          "attributes": []
+          "id": 4,
+          "name": "Stealth"
         }
       }
     ]
   },
   {
     "id": 16,
-    "name": "Jimmy's Desert Wand",
-    "required_level": 20,
-    "item_type": "Wand",
+    "name": "Battle Axe",
+    "required_level": 3,
+    "item_type": {
+      "id": 13,
+      "name": "Axe"
+    },
     "rarity": {
-      "id": 4,
-      "name": "Unique"
+      "id": 3,
+      "name": "Epic"
     },
     "image": {
       "id": 16,
-      "url": "http://example.com/images/jimmys_desert_wand.png"
+      "url": "http://example.com/image16.png"
     },
-    "item_attributes": [
+    "attributes": [
       {
         "id": 16,
-        "name": "Damage",
-        "low_value": 25,
-        "high_value": 50,
+        "name": "Attack Power",
+        "low_value": 30,
+        "high_value": 40,
         "attribute_grouping": {
-          "id": 16,
-          "name": "Offensive",
-          "attributes": []
+          "id": 2,
+          "name": "Offensive"
         }
       }
     ]
   },
   {
     "id": 17,
-    "name": "Mystic's Body Armour of the Ancients",
-    "required_level": 22,
-    "item_type": "Body Armour",
+    "name": "Phoenix Feather",
+    "required_level": 5,
+    "item_type": {
+      "id": 14,
+      "name": "Feather"
+    },
     "rarity": {
-      "id": 2,
-      "name": "Magic"
+      "id": 4,
+      "name": "Legendary"
     },
     "image": {
       "id": 17,
-      "url": "http://example.com/images/mystics_body_armour_of_the_ancients.png"
+      "url": "http://example.com/image17.png"
     },
-    "item_attributes": [
+    "attributes": [
       {
         "id": 17,
-        "name": "Defense",
-        "low_value": 20,
-        "high_value": 40,
+        "name": "Revival",
+        "low_value": 50,
+        "high_value": 60,
         "attribute_grouping": {
-          "id": 17,
-          "name": "Defensive",
-          "attributes": []
+          "id": 3,
+          "name": "Support"
         }
       }
     ]
   },
   {
     "id": 18,
-    "name": "Traveler's Boots of the Plains",
-    "required_level": 12,
-    "item_type": "Boots",
+    "name": "Vampire Fang",
+    "required_level": 4,
+    "item_type": {
+      "id": 15,
+      "name": "Fang"
+    },
     "rarity": {
-      "id": 1,
-      "name": "Base"
+      "id": 4,
+      "name": "Legendary"
     },
     "image": {
       "id": 18,
-      "url": "http://example.com/images/travelers_boots_of_the_plains.png"
+      "url": "http://example.com/image18.png"
     },
-    "item_attributes": [
+    "attributes": [
       {
         "id": 18,
-        "name": "Agility",
-        "low_value": 10,
-        "high_value": 20,
+        "name": "Life Steal",
+        "low_value": 40,
+        "high_value": 50,
         "attribute_grouping": {
-          "id": 18,
-          "name": "Physical",
-          "attributes": []
+          "id": 1,
+          "name": "Magic"
         }
       }
     ]
   },
   {
     "id": 19,
-    "name": "Assassin's Gloves of Precision",
-    "required_level": 15,
-    "item_type": "Gloves",
+    "name": "Necromancer's Ring",
+    "required_level": 5,
+    "item_type": {
+      "id": 16,
+      "name": "Ring"
+    },
     "rarity": {
-      "id": 3,
-      "name": "Rare"
+      "id": 4,
+      "name": "Legendary"
     },
     "image": {
       "id": 19,
-      "url": "http://example.com/images/assassins_gloves_of_precision.png"
+      "url": "http://example.com/image19.png"
     },
-    "item_attributes": [
+    "attributes": [
       {
         "id": 19,
-        "name": "Dexterity",
-        "low_value": 15,
-        "high_value": 30,
+        "name": "Summoning Power",
+        "low_value": 45,
+        "high_value": 55,
         "attribute_grouping": {
-          "id": 19,
-          "name": "Physical",
-          "attributes": []
+          "id": 1,
+          "name": "Magic"
         }
       }
     ]
   },
   {
     "id": 20,
-    "name": "King's Helmet of Dominion",
-    "required_level": 30,
-    "item_type": "Helmet",
+    "name": "Holy Grail",
+    "required_level": 5,
+    "item_type": {
+      "id": 17,
+      "name": "Grail"
+    },
     "rarity": {
       "id": 4,
-      "name": "Unique"
+      "name": "Legendary"
     },
     "image": {
       "id": 20,
-      "url": "http://example.com/images/kings_helmet_of_dominion.png"
+      "url": "http://example.com/image20.png"
     },
-    "item_attributes": [
+    "attributes": [
       {
         "id": 20,
-        "name": "Intelligence",
-        "low_value": 30,
+        "name": "Healing Power",
+        "low_value": 50,
         "high_value": 60,
         "attribute_grouping": {
-          "id": 20,
-          "name": "Mental",
-          "attributes": []
+          "id": 3,
+          "name": "Support"
         }
       }
     ]

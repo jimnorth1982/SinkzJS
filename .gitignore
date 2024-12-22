@@ -130,3 +130,4 @@ frontend/.yarn/install-state.gz
 frontend/.pnp.*
 
 backend/tmp
+tmp/build-errors.log

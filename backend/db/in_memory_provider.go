@@ -19,7 +19,7 @@ var (
 	attributes         = make(map[uint64]types.Attribute)
 	attributeGroupings = make(map[uint64]types.AttributeGrouping)
 	loaded             = false
-	mu                 sync.Mutex
+	mu                 sync.RWMutex
 )
 
 type InMemoryProvider struct{}
@@ -34,14 +34,13 @@ func (p *InMemoryProvider) loadData() error {
 	mu.Lock()
 	defer mu.Unlock()
 
-	log.Println("InMemoryProvider: Loading data from file")
+	log.Println("Loading data from file")
 	if loaded {
 		return nil
 	}
 
 	jsonFile, err := os.Open("data/item_data.json")
 	if err != nil {
-		log.Println(err)
 		return err
 	}
 	defer jsonFile.Close()
@@ -50,11 +49,9 @@ func (p *InMemoryProvider) loadData() error {
 
 	var itemsArr []types.Item
 	if err := json.Unmarshal(byteValue, &itemsArr); err != nil {
-		log.Println(err)
 		return err
 	}
 
-	log.Println("InMemoryProvider: Parsing data")
 	for _, item := range itemsArr {
 		items[item.Id] = item
 		rarities[item.Rarity.Id] = item.Rarity
@@ -68,13 +65,12 @@ func (p *InMemoryProvider) loadData() error {
 		}
 	}
 	loaded = true
-	log.Println("InMemoryProvider: Data loaded successfully: ", len(items), " items")
 	return nil
 }
 
 func (p *InMemoryProvider) GetItems() ([]types.Item, error) {
-	mu.Lock()
-	defer mu.Unlock()
+	mu.RLock()
+	defer mu.RUnlock()
 
 	if len(items) == 0 {
 		return nil, errors.New("no items found")
@@ -88,8 +84,8 @@ func (p *InMemoryProvider) GetItems() ([]types.Item, error) {
 }
 
 func (p *InMemoryProvider) GetItemById(id uint64) (types.Item, error) {
-	mu.Lock()
-	defer mu.Unlock()
+	mu.RLock()
+	defer mu.RUnlock()
 
 	item, exists := items[id]
 	if !exists {
@@ -107,44 +103,43 @@ func (p *InMemoryProvider) AddItem(item types.Item) (types.Item, error) {
 }
 
 func (p *InMemoryProvider) GetRarities() (map[uint64]types.Rarity, error) {
-	mu.Lock()
-	defer mu.Unlock()
+	mu.RLock()
+	defer mu.RUnlock()
 
 	return rarities, nil
 }
 
 func (p *InMemoryProvider) GetItemTypes() (map[uint64]types.ItemType, error) {
-	mu.Lock()
-	defer mu.Unlock()
+	mu.RLock()
+	defer mu.RUnlock()
 
 	return itemTypes, nil
 }
 
 func (p *InMemoryProvider) GetImages() (map[uint64]types.Image, error) {
-	mu.Lock()
-	defer mu.Unlock()
+	mu.RLock()
+	defer mu.RUnlock()
 
 	return images, nil
 }
 
-func (p *InMemoryProvider) GetAttributeGroupings() (attributeGroupingList map[uint64]types.AttributeGrouping, err error) {
-	if len(attributeGroupings) == 0 {
-		return nil, errors.New("no attribute groupings found")
-	}
-
-	return attributeGroupings, nil
-}
-
 func (p *InMemoryProvider) GetAttributes() (map[uint64]types.Attribute, error) {
-	mu.Lock()
-	defer mu.Unlock()
+	mu.RLock()
+	defer mu.RUnlock()
 
 	return attributes, nil
 }
 
+func (p *InMemoryProvider) GetAttributeGroupings() (map[uint64]types.AttributeGrouping, error) {
+	mu.RLock()
+	defer mu.RUnlock()
+
+	return attributeGroupings, nil
+}
+
 func (p *InMemoryProvider) ItemNameExistsInDb(name string) bool {
-	mu.Lock()
-	defer mu.Unlock()
+	mu.RLock()
+	defer mu.RUnlock()
 
 	for _, item := range items {
 		if item.Name == name {

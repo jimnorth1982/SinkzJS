@@ -7,15 +7,9 @@ import (
 	"sinkzjs.org/m/v2/types"
 )
 
-var provider = NewInMemoryProvider()
+var provider = NewInMemoryProvider("data/item_data.json")
 
 func TestConcurrentAccess(t *testing.T) {
-
-	// Load data
-	err := provider.Init()
-	if err != nil {
-		t.Fatalf("Failed to load data: %v", err)
-	}
 
 	// Use a WaitGroup to wait for all goroutines to complete
 	var wg sync.WaitGroup
@@ -80,15 +74,7 @@ func TestConcurrentAccess(t *testing.T) {
 }
 
 func TestItemNameExistsInDb(t *testing.T) {
-	provider := NewInMemoryProvider()
 
-	// Load data
-	err := provider.Init()
-	if err != nil {
-		t.Fatalf("Failed to load data: %v", err)
-	}
-
-	// Add an item
 	item := types.Item{
 		Id:   1,
 		Name: "Unique Item",
@@ -117,7 +103,7 @@ func TestItemNameExistsInDb(t *testing.T) {
 			},
 		},
 	}
-	_, err = provider.AddItem(item)
+	_, err := provider.AddItem(item)
 	if err != nil {
 		t.Fatalf("Failed to add item: %v", err)
 	}

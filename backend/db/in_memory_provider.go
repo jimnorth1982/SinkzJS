@@ -22,15 +22,17 @@ var (
 	mu                 sync.RWMutex
 )
 
-type InMemoryProvider struct{}
+type InMemoryProvider struct {
+	FileName string
+}
 
-func NewInMemoryProvider() *InMemoryProvider {
-	provider := InMemoryProvider{}
-	provider.Init()
+func NewInMemoryProvider(fileName string) *InMemoryProvider {
+	provider := InMemoryProvider{fileName}
+	provider.init()
 	return &provider
 }
 
-func (p *InMemoryProvider) Init() error {
+func (p *InMemoryProvider) init() error {
 	mu.Lock()
 	defer mu.Unlock()
 
@@ -38,10 +40,11 @@ func (p *InMemoryProvider) Init() error {
 		return nil
 	}
 
-	log.Println("Loading data from file")
-	jsonFile, err := os.Open("db/data/item_data.json")
+	log.Println("Loading data from file:", p.FileName)
+	jsonFile, err := os.Open(p.FileName)
 
 	if err != nil {
+		log.Fatal(err)
 		return err
 	}
 	defer jsonFile.Close()
@@ -50,6 +53,7 @@ func (p *InMemoryProvider) Init() error {
 
 	var itemsArr []types.Item
 	if err := json.Unmarshal(byteValue, &itemsArr); err != nil {
+		log.Fatal(err)
 		return err
 	}
 

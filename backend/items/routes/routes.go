@@ -2,7 +2,7 @@ package routes
 
 import (
 	"github.com/labstack/echo/v4"
-	"sinkzjs.org/m/v2/controller"
+	"sinkzjs.org/m/v2/items/controller"
 )
 
 func Routes(controller controller.Controller, e *echo.Echo) {

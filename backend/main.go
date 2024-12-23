@@ -2,13 +2,15 @@ package main
 
 import (
 	"github.com/labstack/echo/v4"
-	"sinkzjs.org/m/v2/controller"
-	"sinkzjs.org/m/v2/db"
-	"sinkzjs.org/m/v2/routes"
+	itemsController "sinkzjs.org/m/v2/items/controller"
+	itemsDb "sinkzjs.org/m/v2/items/db"
+	itemsRoutes "sinkzjs.org/m/v2/items/routes"
 )
 
 func main() {
 	e := echo.New()
-	routes.Routes(*controller.NewController(db.NewInMemoryProvider("db/data/item_data.json")), e)
+	provider := itemsDb.NewInMemoryProvider("items/db/data/item_data.json")
+	itemsController := *itemsController.NewController(provider)
+	itemsRoutes.Routes(itemsController, e)
 	e.Logger.Fatal(e.Start(":8080"))
 }

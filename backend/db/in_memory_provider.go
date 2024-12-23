@@ -26,11 +26,11 @@ type InMemoryProvider struct{}
 
 func NewInMemoryProvider() *InMemoryProvider {
 	provider := InMemoryProvider{}
-	provider.loadData()
+	provider.Init()
 	return &provider
 }
 
-func (p *InMemoryProvider) loadData() error {
+func (p *InMemoryProvider) Init() error {
 	mu.Lock()
 	defer mu.Unlock()
 

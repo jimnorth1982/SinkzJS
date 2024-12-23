@@ -12,4 +12,5 @@ type Provider interface {
 	GetAttributes() (map[uint64]types.Attribute, error)
 	GetAttributeGroupings() (map[uint64]types.AttributeGrouping, error)
 	ItemNameExistsInDb(string) bool
+	Init() error
 }

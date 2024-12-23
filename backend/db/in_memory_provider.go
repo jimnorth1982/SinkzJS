@@ -34,12 +34,13 @@ func (p *InMemoryProvider) Init() error {
 	mu.Lock()
 	defer mu.Unlock()
 
-	log.Println("Loading data from file")
 	if loaded {
 		return nil
 	}
 
-	jsonFile, err := os.Open("data/item_data.json")
+	log.Println("Loading data from file")
+	jsonFile, err := os.Open("db/data/item_data.json")
+
 	if err != nil {
 		return err
 	}
@@ -65,6 +66,7 @@ func (p *InMemoryProvider) Init() error {
 		}
 	}
 	loaded = true
+	log.Println("Data loaded")
 	return nil
 }
 

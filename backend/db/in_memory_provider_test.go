@@ -7,8 +7,9 @@ import (
 	"sinkzjs.org/m/v2/types"
 )
 
+var provider = NewInMemoryProvider()
+
 func TestConcurrentAccess(t *testing.T) {
-	provider := NewInMemoryProvider()
 
 	// Load data
 	err := provider.Init()

@@ -9,6 +9,6 @@ import (
 
 func main() {
 	e := echo.New()
-	routes.Routes(*controller.NewController(db.NewInMemoryProvider()), e)
+	routes.Routes(*controller.NewController(db.NewInMemoryProvider("db/data/item_data.json")), e)
 	e.Logger.Fatal(e.Start(":8080"))
 }

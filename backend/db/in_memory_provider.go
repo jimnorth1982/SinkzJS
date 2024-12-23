@@ -37,7 +37,7 @@ func (p *InMemoryProvider) init() error {
 	defer mu.Unlock()
 
 	if loaded {
-		return nil
+		return errors.New("data already loaded")
 	}
 
 	log.Println("Loading data from file:", p.FileName)

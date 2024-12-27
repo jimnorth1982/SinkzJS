@@ -102,3 +102,40 @@ func (c Controller) AddItem(ctx echo.Context) error {
 		HttpStatus: http.StatusCreated,
 	})
 }
+
+func (c Controller) UpdateItem(ctx echo.Context) error {
+	id, err := strconv.ParseUint(ctx.Param("id"), 10, 64)
+	if err != nil {
+		fmt.Println(err.Error())
+		return ctx.JSON(http.StatusBadRequest, types.ItemsResponse{
+			Message:    fmt.Sprintf("invalid format for parameter [Id]: %s", ctx.Param("id")),
+			HttpStatus: http.StatusBadRequest,
+			Items:      nil,
+		})
+	}
+
+	var item types.Item
+	if err := ctx.Bind(&item); err != nil {
+		return ctx.JSON(http.StatusBadRequest, types.ItemsResponse{
+			Message:    err.Error(),
+			HttpStatus: http.StatusBadRequest,
+			Items:      nil,
+		})
+	}
+
+	updated_item, err := c.provider.UpdateItem(id, item)
+
+	if err != nil {
+		return ctx.JSON(http.StatusBadRequest, types.ItemsResponse{
+			Message:    err.Error(),
+			HttpStatus: http.StatusBadRequest,
+			Items:      nil,
+		})
+	}
+
+	return ctx.JSON(http.StatusOK, types.ItemsResponse{
+		Message:    "item updated successfully",
+		HttpStatus: http.StatusOK,
+		Items:      []types.Item{updated_item},
+	})
+}

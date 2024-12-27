@@ -155,4 +155,16 @@ func (p *InMemoryProvider) ItemNameExistsInDb(name string) bool {
 	return false
 }
 
+func (p *InMemoryProvider) UpdateItem(id uint64, item types.Item) (types.Item, error) {
+	mu.Lock()
+	defer mu.Unlock()
+
+	if _, exists := items[id]; !exists {
+		return types.Item{}, errors.New("item not found")
+	}
+	item.Id = id
+	items[id] = item
+	return item, nil
+}
+
 var _ Provider = (*InMemoryProvider)(nil)

@@ -1,0 +1,22 @@
+[
+    {
+        "id": 1,
+        "exile_name": "JimmyTheGreat",
+        "level": 99,
+        "helmet_id": 17,
+        "weapon_id": 11,
+        "armor_id": 18,
+        "shield_id": 13,
+        "boots_id": 12
+    },
+    {
+        "id": 2,
+        "exile_name": "JimmyTheGreat",
+        "level": 33,
+        "helmet_id": 7,
+        "weapon_id": 1,
+        "armor_id": 8,
+        "shield_id": 3,
+        "boots_id": 2
+    }
+]

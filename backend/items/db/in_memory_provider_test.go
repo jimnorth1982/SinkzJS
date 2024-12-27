@@ -4,20 +4,15 @@ import (
 	"sync"
 	"testing"
 
-	"sinkzjs.org/m/v2/types"
+	"sinkzjs.org/m/v2/items/types"
 )
 
 var provider = NewInMemoryProvider("data/item_data.json")
 
 func TestConcurrentAccess(t *testing.T) {
-
-	// Use a WaitGroup to wait for all goroutines to complete
 	var wg sync.WaitGroup
 
-	// Number of concurrent operations
 	numGoroutines := 100
-
-	// Concurrent reads
 	wg.Add(numGoroutines)
 	for i := 0; i < numGoroutines; i++ {
 		go func() {
@@ -29,7 +24,6 @@ func TestConcurrentAccess(t *testing.T) {
 		}()
 	}
 
-	// Concurrent writes
 	wg.Add(numGoroutines)
 	for i := 0; i < numGoroutines; i++ {
 		go func(id uint64) {
@@ -69,12 +63,10 @@ func TestConcurrentAccess(t *testing.T) {
 		}(uint64(i + 1))
 	}
 
-	// Wait for all goroutines to complete
 	wg.Wait()
 }
 
 func TestItemNameExistsInDb(t *testing.T) {
-
 	item := types.Item{
 		Id:   1,
 		Name: "Unique Item",
@@ -108,13 +100,11 @@ func TestItemNameExistsInDb(t *testing.T) {
 		t.Fatalf("Failed to add item: %v", err)
 	}
 
-	// Check if the item name exists in the database
 	exists := provider.ItemNameExistsInDb("Unique Item")
 	if !exists {
 		t.Errorf("Expected item name to exist in the database")
 	}
 
-	// Check if a non-existent item name does not exist in the database
 	exists = provider.ItemNameExistsInDb("Non-Existent Item")
 	if exists {
 		t.Errorf("Expected item name to not exist in the database")

@@ -8,7 +8,7 @@ import (
 	"os"
 	"sync"
 
-	"sinkzjs.org/m/v2/types"
+	"sinkzjs.org/m/v2/items/types"
 )
 
 var (

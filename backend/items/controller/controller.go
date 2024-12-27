@@ -7,8 +7,8 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"gopkg.in/go-playground/validator.v9"
-	"sinkzjs.org/m/v2/db"
-	"sinkzjs.org/m/v2/types"
+	"sinkzjs.org/m/v2/items/db"
+	"sinkzjs.org/m/v2/items/types"
 )
 
 type Controller struct {

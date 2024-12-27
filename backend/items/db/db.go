@@ -1,6 +1,6 @@
 package db
 
-import "sinkzjs.org/m/v2/types"
+import "sinkzjs.org/m/v2/items/types"
 
 type Db struct {
 	Provider Provider

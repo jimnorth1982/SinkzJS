@@ -12,24 +12,19 @@ import (
 )
 
 func main() {
-	go itemsServer()
-	go exilesServer()
-
-	select {}
+	restAPI()
 }
 
-func itemsServer() {
+func restAPI() {
 	e := echo.New()
+
 	provider := itemsDb.NewInMemoryProvider("items/db/data/item_data.json")
 	itemsController := *itemsController.NewController(provider)
 	itemsRoutes.Routes(itemsController, e)
-	e.Logger.Fatal(e.Start(":8080"))
-}
 
-func exilesServer() {
-	e := echo.New()
 	exilesProvider := exilesDb.NewInMemoryProvider("exiles/db/data/exile_data.json")
 	exilesController := *exilesController.NewController(exilesProvider)
 	exilesRoutes.Routes(exilesController, e)
-	e.Logger.Fatal(e.Start(":9090"))
+
+	e.Logger.Fatal(e.Start(":8080"))
 }

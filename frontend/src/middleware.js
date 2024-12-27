@@ -1,21 +1,28 @@
 import fetch from "node-fetch";
 
 /**
- * Fetch data from a given URL.
+ * Fetch item data from the specified URL with an optional JSON payload.
+ *
  * @param {string} url - The URL to fetch data from.
- * @returns {Promise<ItemsResponse>} The fetched data.
- * @throws Will throw an error if the fetch operation fails.
+ * @param {Object} [payload] - The optional JSON payload to send with the request.
+ * @returns {Promise<Object>} - The response data.
  */
-export async function fetchItemData(url) {
-  try {
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error("Error fetching data:", error);
-    throw error;
+export async function fetchREST(url, payload = null) {
+  const options = {
+    method: payload ? 'POST' : 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
+  if (payload) {
+    options.body = JSON.stringify(payload);
   }
+
+  const response = await fetch(url, options);
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+  return response.json();
 }
+

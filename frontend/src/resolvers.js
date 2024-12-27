@@ -3,37 +3,19 @@ import { exilesEndpoint, itemsEndpoint } from "./config.js";
 
 export const resolvers = {
   Query: {
-    items: async () => {
-      const rawApiResponse = await fetchREST(itemsEndpoint().url).catch(
-        (error) => {
-          return { message: error, items: [] };
-        }
-      );
-      return rawApiResponse.items;
+    items: async (_, __, { dataSources }) => {
+      const data = await dataSources.itemsAPI.getItems();
+      console.log(data);
+      return data;
     },
-    item: async (_, { id }) => {
-      const rawApiResponse = await fetchREST(itemsEndpoint().url, {id: id}).catch(
-        (error) => {
-          return { message: error, items: [] };
-        }
-      );
-      return rawApiResponse.items.find((item) => item.id === id);
+    item: async (_, { id }, { dataSources }) => {
+      return await dataSources.itemsAPI.getItem(id);
     },
-    exiles: async () => {
-      const rawApiResponse = await fetchREST(exilesEndpoint().url).catch(
-        (error) => {
-          return { message: error, exiles: [] };
-        }
-      );
-      return rawApiResponse.exiles;
+    exiles: async (_, __, { dataSources }) => {
+      return await dataSources.exileAPI.getExiles();
     },
-    exile: async (_, { id }) => {
-      const rawApiResponse = await fetchREST(exilesEndpoint().url, {id: id}).catch(
-        (error) => {
-          return { message: error, exiles: [] };
-        }
-      );
-      return rawApiResponse.exiles.find((exile) => exile.id === id);
+    exile: async (_, { id }, { dataSources }) => {
+      return await dataSources.exileAPI.getExile(id);
     },
   },
 };

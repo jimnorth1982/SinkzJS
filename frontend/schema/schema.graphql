@@ -1,19 +1,22 @@
-type ItemType {
+directive @key(fields: String!) on OBJECT | INTERFACE
+directive @extends on OBJECT | INTERFACE
+
+type ItemType  @key(fields: "id") {
   id: ID!
   name: String!
 }
 
-type Rarity {
+type Rarity  @key(fields: "id") {
   id: ID!
   name: String!
 }
 
-type Image {
+type Image  @key(fields: "id") {
   id: ID!
   url: String!
 }
 
-type Attribute {
+type Attribute  @key(fields: "id") {
   id: ID!
   name: String!
   lowValue: Int!
@@ -21,12 +24,12 @@ type Attribute {
   attributeGrouping: AttributeGrouping!
 }
 
-type AttributeGrouping {
+type AttributeGrouping  @key(fields: "id") {
   id: ID!
   name: String!
 }
 
-type Item {
+type Item  @key(fields: "id") {
   id: ID!
   name: String!
   requiredLevel: Int!
@@ -36,8 +39,33 @@ type Item {
   attributes: [Attribute]
 }
 
+type Exile @key(fields: "id") {
+  id: ID!
+  name: String!
+  level: Int!
+  helmet_id: ID!
+  armor_id: ID!
+  weapon_id: ID!
+  shield_id: ID!
+  boots_id: ID!
+}
+
+type HydratedExile @extends @key(fields: "id") {
+  id: ID!
+  name: String!
+  level: Int!
+  helmet: Item
+  armor: Item
+  weapon: Item
+  shield: Item
+  boots: Item
+}
+
 type Query {
+  exiles: [Exile!]!
+  exile(id: ID!): Exile
   items: [Item!]!
+  item(id: ID!): Item
 }
 
 schema {

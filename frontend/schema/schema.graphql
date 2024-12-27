@@ -19,9 +19,9 @@ type Image  @key(fields: "id") {
 type Attribute  @key(fields: "id") {
   id: ID!
   name: String!
-  lowValue: Int!
-  highValue: Int!
-  attributeGrouping: AttributeGrouping!
+  low_alue: Int!
+  high_value: Int!
+  attribute_grouping: AttributeGrouping!
 }
 
 type AttributeGrouping  @key(fields: "id") {
@@ -32,8 +32,8 @@ type AttributeGrouping  @key(fields: "id") {
 type Item  @key(fields: "id") {
   id: ID!
   name: String!
-  requiredLevel: Int!
-  itemType: ItemType!
+  required_level: Int!
+  item_type: ItemType!
   rarity: Rarity!
   image: Image!
   attributes: [Attribute]
@@ -61,11 +61,23 @@ type HydratedExile @extends @key(fields: "id") {
   boots: Item
 }
 
+type ExilesResponse {
+  message: String
+  http_status: Int
+  exiles: [Exile]
+}
+
+type ItemsResponse {
+  message: String
+  http_status: Int
+  items: [Item]
+}
+
 type Query {
-  exiles: [Exile!]!
-  exile(id: ID!): Exile
-  items: [Item!]!
-  item(id: ID!): Item
+  exiles: ExilesResponse!
+  exile(id: ID!): ExilesResponse!
+  items: ItemsResponse!
+  item(id: ID!): ItemsResponse!
 }
 
 schema {

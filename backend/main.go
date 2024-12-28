@@ -18,8 +18,8 @@ func main() {
 func restAPI() {
 	e := echo.New()
 
-	provider := itemsDb.NewInMemoryProvider("items/db/data/item_data.json")
-	itemsController := *itemsController.NewController(provider)
+	itemsProvider := itemsDb.NewInMemoryProvider("items/db/data/item_data.json")
+	itemsController := *itemsController.NewController(itemsProvider)
 	itemsRoutes.Routes(itemsController, e)
 
 	exilesProvider := exilesDb.NewInMemoryProvider("exiles/db/data/exile_data.json")

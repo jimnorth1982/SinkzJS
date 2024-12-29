@@ -74,7 +74,7 @@ func (p *InMemoryProvider) init() error {
 	return nil
 }
 
-func (p *InMemoryProvider) GetItems() ([]types.Item, error) {
+func (p *InMemoryProvider) GetItems() (*[]types.Item, error) {
 	mu.RLock()
 	defer mu.RUnlock()
 
@@ -86,61 +86,61 @@ func (p *InMemoryProvider) GetItems() ([]types.Item, error) {
 	for _, item := range items {
 		itemList = append(itemList, item)
 	}
-	return itemList, nil
+	return &itemList, nil
 }
 
-func (p *InMemoryProvider) GetItemById(id uint64) (types.Item, error) {
+func (p *InMemoryProvider) GetItemById(id uint64) (*types.Item, error) {
 	mu.RLock()
 	defer mu.RUnlock()
 
 	item, exists := items[id]
 	if !exists {
-		return types.Item{}, errors.New("item not found")
+		return nil, errors.New("item not found")
 	}
-	return item, nil
+	return &item, nil
 }
 
-func (p *InMemoryProvider) AddItem(item types.Item) (types.Item, error) {
+func (p *InMemoryProvider) AddItem(item *types.Item) (*types.Item, error) {
 	mu.Lock()
 	defer mu.Unlock()
 
-	items[item.Id] = item
+	items[item.Id] = *item
 	return item, nil
 }
 
-func (p *InMemoryProvider) GetRarities() (map[uint64]types.Rarity, error) {
+func (p *InMemoryProvider) GetRarities() (*map[uint64]types.Rarity, error) {
 	mu.RLock()
 	defer mu.RUnlock()
 
-	return rarities, nil
+	return &rarities, nil
 }
 
-func (p *InMemoryProvider) GetItemTypes() (map[uint64]types.ItemType, error) {
+func (p *InMemoryProvider) GetItemTypes() (*map[uint64]types.ItemType, error) {
 	mu.RLock()
 	defer mu.RUnlock()
 
-	return itemTypes, nil
+	return &itemTypes, nil
 }
 
-func (p *InMemoryProvider) GetImages() (map[uint64]types.Image, error) {
+func (p *InMemoryProvider) GetImages() (*map[uint64]types.Image, error) {
 	mu.RLock()
 	defer mu.RUnlock()
 
-	return images, nil
+	return &images, nil
 }
 
-func (p *InMemoryProvider) GetAttributes() (map[uint64]types.Attribute, error) {
+func (p *InMemoryProvider) GetAttributes() (*map[uint64]types.Attribute, error) {
 	mu.RLock()
 	defer mu.RUnlock()
 
-	return attributes, nil
+	return &attributes, nil
 }
 
-func (p *InMemoryProvider) GetAttributeGroupings() (map[uint64]types.AttributeGrouping, error) {
+func (p *InMemoryProvider) GetAttributeGroupings() (*map[uint64]types.AttributeGrouping, error) {
 	mu.RLock()
 	defer mu.RUnlock()
 
-	return attributeGroupings, nil
+	return &attributeGroupings, nil
 }
 
 func (p *InMemoryProvider) ItemNameExistsInDb(name string) bool {
@@ -155,15 +155,15 @@ func (p *InMemoryProvider) ItemNameExistsInDb(name string) bool {
 	return false
 }
 
-func (p *InMemoryProvider) UpdateItem(id uint64, item types.Item) (types.Item, error) {
+func (p *InMemoryProvider) UpdateItem(id uint64, item *types.Item) (*types.Item, error) {
 	mu.Lock()
 	defer mu.Unlock()
 
 	if _, exists := items[id]; !exists {
-		return types.Item{}, errors.New("item not found")
+		return &types.Item{}, errors.New("item not found")
 	}
 	item.Id = id
-	items[id] = item
+	items[id] = *item
 	return item, nil
 }
 

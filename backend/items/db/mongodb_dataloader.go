@@ -7,7 +7,6 @@ import (
 	"os"
 
 	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
 	"sinkzjs.org/m/v2/items/types"
 )
 
@@ -26,32 +25,23 @@ func loadItemsFromFile(filename string) ([]types.Item, error) {
 	return items, nil
 }
 
-func connectToMongoDB(clientOptions *options.ClientOptions) (*mongo.Client, error) {
-
-	client, err := mongo.Connect(context.TODO(), clientOptions)
-	if err != nil {
-		return nil, err
+func (p *MongoDBProvider) Database() (*mongo.Database, error) {
+	if p.Client == nil {
+		return nil, mongo.ErrClientDisconnected
 	}
 
-	err = client.Ping(context.TODO(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return client, nil
+	return p.Client.Database(p.DatabaseName), nil
 }
 
-func insertItemsIntoMongoDB(collection *mongo.Collection, items []types.Item) error {
-	var documents []interface{}
-	for _, item := range items {
-		documents = append(documents, item)
+func (p *MongoDBProvider) Collection() (*mongo.Collection, error) {
+	if p.Client == nil {
+		return nil, mongo.ErrClientDisconnected
 	}
 
-	_, err := collection.InsertMany(context.TODO(), documents)
-	return err
+	return p.Client.Database(p.DatabaseName).Collection(p.CollectionName), nil
 }
 
-func ClearAndLoadDataFromSJON(client *mongo.Client) error {
+func (p *MongoDBProvider) ClearAndLoadDataFromJSON() error {
 	// Load items from JSON file
 	items, err := loadItemsFromFile("/home/jimi/dev/SinkzJS/backend/items/db/data/item_data.json")
 	if err != nil {
@@ -59,21 +49,21 @@ func ClearAndLoadDataFromSJON(client *mongo.Client) error {
 		return err
 	}
 
-	collection := client.Database("items").Collection("items")
+	collection := p.Client.Database("items").Collection("items")
 	// Drop the collection
 	err = collection.Drop(context.Background())
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalf("Failed to drop: %v", err)
+		return err
 	}
 
 	log.Println("Collection cleared successfully.")
-	// Insert items into MongoDB
-	err = insertItemsIntoMongoDB(collection, items)
+
+	err = insertItemsIntoMongoDB(collection, &items)
 	if err != nil {
 		log.Fatalf("Failed to insert items into MongoDB: %v", err)
 		return err
 	}
-
 	log.Println("Items successfully inserted into MongoDB")
 	return nil
 }

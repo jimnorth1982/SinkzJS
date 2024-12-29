@@ -12,15 +12,15 @@ import (
 )
 
 type Controller struct {
-	provider db.Provider
+	Provider db.Provider
 }
 
-func NewController(provider db.Provider) *Controller {
-	return &Controller{provider: provider}
+func NewController(Provider db.Provider) *Controller {
+	return &Controller{Provider: Provider}
 }
 
-func (c Controller) GetAllItems(ctx echo.Context) error {
-	items, err := c.provider.GetItems()
+func (c *Controller) GetAllItems(ctx echo.Context) error {
+	items, err := c.Provider.GetItems()
 
 	if err != nil {
 		return ctx.JSON(http.StatusBadRequest, types.ItemsResponse{
@@ -33,11 +33,11 @@ func (c Controller) GetAllItems(ctx echo.Context) error {
 	return ctx.JSON(http.StatusOK, types.ItemsResponse{
 		Message:    "items retrieved successfully",
 		HttpStatus: http.StatusOK,
-		Items:      items,
+		Items:      *items,
 	})
 }
 
-func (c Controller) GetItemById(ctx echo.Context) error {
+func (c *Controller) GetItemById(ctx echo.Context) error {
 	id, err := strconv.ParseUint(ctx.Param("id"), 10, 64)
 	if err != nil {
 		fmt.Println(err.Error())
@@ -47,7 +47,7 @@ func (c Controller) GetItemById(ctx echo.Context) error {
 			Items:      nil,
 		})
 	}
-	item, err := c.provider.GetItemById(id)
+	item, err := c.Provider.GetItemById(id)
 
 	if err != nil {
 		return ctx.JSON(http.StatusNotFound, types.ItemsResponse{
@@ -60,11 +60,11 @@ func (c Controller) GetItemById(ctx echo.Context) error {
 	return ctx.JSON(http.StatusOK, types.ItemsResponse{
 		Message:    "item retrieved successfully",
 		HttpStatus: http.StatusOK,
-		Items:      []types.Item{item},
+		Items:      []types.Item{*item},
 	})
 }
 
-func (c Controller) AddItem(ctx echo.Context) error {
+func (c *Controller) AddItem(ctx echo.Context) error {
 	var item = new(types.Item)
 
 	if err := ctx.Bind(item); err != nil {
@@ -86,7 +86,7 @@ func (c Controller) AddItem(ctx echo.Context) error {
 		})
 	}
 
-	added_item, err := c.provider.AddItem(*item)
+	added_item, err := c.Provider.AddItem(item)
 
 	if err != nil {
 		return ctx.JSON(http.StatusBadRequest, types.ItemsResponse{
@@ -98,12 +98,12 @@ func (c Controller) AddItem(ctx echo.Context) error {
 
 	return ctx.JSON(http.StatusOK, types.ItemsResponse{
 		Message:    "item added successfully",
-		Items:      []types.Item{added_item},
+		Items:      []types.Item{*added_item},
 		HttpStatus: http.StatusCreated,
 	})
 }
 
-func (c Controller) UpdateItem(ctx echo.Context) error {
+func (c *Controller) UpdateItem(ctx echo.Context) error {
 	id, err := strconv.ParseUint(ctx.Param("id"), 10, 64)
 	if err != nil {
 		fmt.Println(err.Error())
@@ -123,7 +123,7 @@ func (c Controller) UpdateItem(ctx echo.Context) error {
 		})
 	}
 
-	updated_item, err := c.provider.UpdateItem(id, item)
+	updated_item, err := c.Provider.UpdateItem(id, &item)
 
 	if err != nil {
 		return ctx.JSON(http.StatusBadRequest, types.ItemsResponse{
@@ -136,6 +136,6 @@ func (c Controller) UpdateItem(ctx echo.Context) error {
 	return ctx.JSON(http.StatusOK, types.ItemsResponse{
 		Message:    "item updated successfully",
 		HttpStatus: http.StatusOK,
-		Items:      []types.Item{updated_item},
+		Items:      []types.Item{*updated_item},
 	})
 }

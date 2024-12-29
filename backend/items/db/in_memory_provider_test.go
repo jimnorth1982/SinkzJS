@@ -56,7 +56,7 @@ func TestConcurrentAccess(t *testing.T) {
 					},
 				},
 			}
-			_, err := provider.AddItem(item)
+			_, err := provider.AddItem(&item)
 			if err != nil {
 				t.Errorf("Failed to add item: %v", err)
 			}
@@ -95,7 +95,7 @@ func TestItemNameExistsInDb(t *testing.T) {
 			},
 		},
 	}
-	_, err := provider.AddItem(item)
+	_, err := provider.AddItem(&item)
 	if err != nil {
 		t.Fatalf("Failed to add item: %v", err)
 	}

@@ -28,7 +28,7 @@ func (c Controller) GetExiles(ctx echo.Context) error {
 	return ctx.JSON(http.StatusOK, types.ExilesResponse{
 		Message:    "exiles retrieved successfully",
 		HttpStatus: http.StatusOK,
-		Exiles:     exiles,
+		Exiles:     *exiles,
 	})
 }
 
@@ -52,7 +52,7 @@ func (c Controller) GetExile(ctx echo.Context) error {
 	return ctx.JSON(http.StatusOK, types.ExilesResponse{
 		Message:    "exile retrieved successfully",
 		HttpStatus: http.StatusOK,
-		Exiles:     []types.Exile{exile},
+		Exiles:     []types.Exile{*exile},
 	})
 }
 
@@ -78,7 +78,7 @@ func (c Controller) CreateExile(ctx echo.Context) error {
 		})
 	}
 
-	added_exile, err := c.Provider.CreateExile(exile)
+	added_exile, err := c.Provider.CreateExile(&exile)
 
 	if err != nil {
 		return ctx.JSON(http.StatusBadRequest, GenError(err))
@@ -87,7 +87,7 @@ func (c Controller) CreateExile(ctx echo.Context) error {
 	return ctx.JSON(http.StatusCreated, types.ExilesResponse{
 		Message:    "exile created successfully",
 		HttpStatus: http.StatusCreated,
-		Exiles:     []types.Exile{added_exile},
+		Exiles:     []types.Exile{*added_exile},
 	})
 }
 
@@ -107,7 +107,7 @@ func (c Controller) UpdateExile(ctx echo.Context) error {
 		return ctx.JSON(http.StatusBadRequest, GenError(err))
 	}
 
-	updated_exile, err := c.Provider.UpdateExile(id, exile)
+	updated_exile, err := c.Provider.UpdateExile(id, &exile)
 
 	if err != nil {
 		return ctx.JSON(http.StatusBadRequest, GenError(err))
@@ -116,7 +116,7 @@ func (c Controller) UpdateExile(ctx echo.Context) error {
 	return ctx.JSON(http.StatusOK, types.ExilesResponse{
 		Message:    "exile updated successfully",
 		HttpStatus: http.StatusOK,
-		Exiles:     []types.Exile{updated_exile},
+		Exiles:     []types.Exile{*updated_exile},
 	})
 }
 

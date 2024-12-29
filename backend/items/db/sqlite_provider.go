@@ -38,35 +38,35 @@ func Connect(dbpath string) *SqLiteDb {
 	return &SqLiteDb{db}
 }
 
-func (p *SqLiteProvider) GetItems() ([]types.Item, error) {
+func (p *SqLiteProvider) GetItems() (*[]types.Item, error) {
 	return nil, nil
 }
 
-func (p *SqLiteProvider) GetItemById(uint64) (types.Item, error) {
-	return types.Item{}, nil
+func (p *SqLiteProvider) GetItemById(uint64) (*types.Item, error) {
+	return &types.Item{}, nil
 }
 
-func (p *SqLiteProvider) AddItem(types.Item) (types.Item, error) {
-	return types.Item{}, nil
+func (p *SqLiteProvider) AddItem(*types.Item) (*types.Item, error) {
+	return &types.Item{}, nil
 }
 
-func (p *SqLiteProvider) GetRarities() (map[uint64]types.Rarity, error) {
+func (p *SqLiteProvider) GetRarities() (*map[uint64]types.Rarity, error) {
 	return nil, nil
 }
 
-func (p *SqLiteProvider) GetItemTypes() (map[uint64]types.ItemType, error) {
+func (p *SqLiteProvider) GetItemTypes() (*map[uint64]types.ItemType, error) {
 	return nil, nil
 }
 
-func (p *SqLiteProvider) GetImages() (map[uint64]types.Image, error) {
+func (p *SqLiteProvider) GetImages() (*map[uint64]types.Image, error) {
 	return nil, nil
 }
 
-func (p *SqLiteProvider) GetAttributes() (map[uint64]types.Attribute, error) {
+func (p *SqLiteProvider) GetAttributes() (*map[uint64]types.Attribute, error) {
 	return nil, nil
 }
 
-func (p *SqLiteProvider) GetAttributeGroupings() (map[uint64]types.AttributeGrouping, error) {
+func (p *SqLiteProvider) GetAttributeGroupings() (*map[uint64]types.AttributeGrouping, error) {
 	return nil, nil
 }
 
@@ -74,8 +74,8 @@ func (p *SqLiteProvider) ItemNameExistsInDb(string) bool {
 	return true
 }
 
-func (p *SqLiteProvider) UpdateItem(uint64, types.Item) (types.Item, error) {
-	return types.Item{}, nil
+func (p *SqLiteProvider) UpdateItem(uint64, *types.Item) (*types.Item, error) {
+	return &types.Item{}, nil
 }
 
 var _ Provider = (*SqLiteProvider)(nil)

@@ -9,20 +9,16 @@ import (
 	"sinkzjs.org/m/v2/items/types"
 )
 
-type SqLiteDb struct {
-	db *sql.DB
-}
-
 type SqLiteStorageProvider struct {
 	DBFileName    string
 	TimeoutMillis int
 	TTLMillis     int
-	sqlitedb      SqLiteDb
+	sqlitedb      *sql.DB
 }
 
 func NewSqlite3Provider(DBFileName string, TimeoutMillis int, TTLMillis int) *SqLiteStorageProvider {
 	conn := Connect(DBFileName)
-	provider := &SqLiteStorageProvider{DBFileName, TimeoutMillis, TTLMillis, *conn}
+	provider := &SqLiteStorageProvider{DBFileName, TimeoutMillis, TTLMillis, conn}
 	provider.init()
 	return provider
 }
@@ -31,12 +27,13 @@ func (p *SqLiteStorageProvider) init() {
 	log.Print("Init: SqLiteProvider")
 }
 
-func Connect(dbpath string) *SqLiteDb {
+func Connect(dbpath string) *sql.DB {
 	db, err := sql.Open("sqlite3", dbpath)
 	if err != nil {
 		log.Fatalf("DB Handle Error: %s", err.Error())
 	}
-	return &SqLiteDb{db}
+	db.SetMaxOpenConns(5)
+	return db
 }
 
 func (p *SqLiteStorageProvider) GetItems() (*[]types.Item, error) {

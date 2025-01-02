@@ -60,7 +60,17 @@ func (p *MongoStorageProvider) ClearAndLoadDataFromJSON() error {
 		rarityList = append(rarityList, rarity)
 	}
 
+	if err := dropCollection(p, "items"); err != nil {
+		p.log.Error(err.Error())
+		return err
+	}
+
 	if err := AddElementsToCollection(p, "items", itemsList); err != nil {
+		p.log.Error(err.Error())
+		return err
+	}
+
+	if err := dropCollection(p, "rarity"); err != nil {
 		p.log.Error(err.Error())
 		return err
 	}
@@ -73,15 +83,22 @@ func (p *MongoStorageProvider) ClearAndLoadDataFromJSON() error {
 	return nil
 }
 
-func AddElementsToCollection(p *MongoStorageProvider, collName string, elements []interface{}) error {
-	coll, err := p.Collection(collName)
-	if err != nil {
+func dropCollection(p *MongoStorageProvider, collName string) error {
+	if coll, err := p.Collection(collName); err != nil {
 		p.log.Error(err.Error())
 		return err
+	} else {
+		p.log.Info("Dropping collection " + collName)
+		if err := coll.Drop(context.Background()); err != nil {
+			p.log.Error(err.Error())
+			return err
+		}
 	}
+	return nil
+}
 
-	p.log.Info("Dropping collection " + collName)
-	err = coll.Drop(context.Background())
+func AddElementsToCollection(p *MongoStorageProvider, collName string, elements []interface{}) error {
+	coll, err := p.Collection(collName)
 	if err != nil {
 		p.log.Error(err.Error())
 		return err

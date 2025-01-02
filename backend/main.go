@@ -32,12 +32,10 @@ func main() {
 }
 
 func restAPI() {
-
-	mongodbProvider := itemsDb.NewMongoDBProvider("items", "items")
-	setup(mongodbProvider, login())
-
 	e := echo.New()
 
+	mongodbProvider := itemsDb.NewMongoDBProvider("items")
+	setup(mongodbProvider, login())
 	itemsController := *itemsController.NewController(mongodbProvider)
 	itemsRoutes.Routes(itemsController, e)
 
@@ -45,11 +43,12 @@ func restAPI() {
 	exilesController := *exilesController.NewController(exilesProvider)
 	exilesRoutes.Routes(exilesController, e)
 
+	defer mongodbProvider.CleanupConnection()
 	e.Logger.Fatal(e.Start(":8080"))
 }
 
 func login() options.Credential {
-	if os.Args != nil {
+	if len(os.Args) >= 3 {
 		return options.Credential{Username: os.Args[1], Password: os.Args[2]}
 	}
 
@@ -64,7 +63,7 @@ func login() options.Credential {
 }
 
 func setup(mongodbProvider *itemsDb.MongoDBProvider, creds options.Credential) {
-	err := mongodbProvider.Connect(os.Getenv("MONGODB_URI"), creds, 4)
+	err := mongodbProvider.Connect(os.Getenv("MONGODB_URI"), creds, 5)
 
 	if err != nil {
 		log.Fatalf("Error getting connection to MongoDB: %v", err)

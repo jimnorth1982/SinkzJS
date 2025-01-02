@@ -22,23 +22,23 @@ func (db *Db) AddItem(item *types.Item) (added_item *types.Item, err error) {
 	return db.Provider.AddItem(item)
 }
 
-func (db *Db) GetRarities() (rarityList *map[uint64]types.Rarity, err error) {
+func (db *Db) GetRarities() (rarityList *[]types.Rarity, err error) {
 	return db.Provider.GetRarities()
 }
 
-func (db *Db) GetItemTypes() (itemTypeList *map[uint64]types.ItemType, err error) {
+func (db *Db) GetItemTypes() (itemTypeList *[]types.ItemType, err error) {
 	return db.Provider.GetItemTypes()
 }
 
-func (db *Db) GetImages() (imageList *map[uint64]types.Image, err error) {
+func (db *Db) GetImages() (imageList *[]types.Image, err error) {
 	return db.Provider.GetImages()
 }
 
-func (db *Db) GetAttributes() (attributeList *map[uint64]types.Attribute, err error) {
+func (db *Db) GetAttributes() (attributeList *[]types.Attribute, err error) {
 	return db.Provider.GetAttributes()
 }
 
-func (db *Db) GetAttributeGroupings() (attributeGroupingList *map[uint64]types.AttributeGrouping, err error) {
+func (db *Db) GetAttributeGroupings() (attributeGroupingList *[]types.AttributeGrouping, err error) {
 	return db.Provider.GetAttributeGroupings()
 }
 

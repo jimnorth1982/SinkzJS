@@ -2,6 +2,7 @@ package controller
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"strconv"
 
@@ -137,5 +138,19 @@ func (c *Controller) UpdateItem(ctx echo.Context) error {
 		Message:    "item updated successfully",
 		HttpStatus: http.StatusOK,
 		Items:      []types.Item{*updated_item},
+	})
+}
+
+func (c *Controller) GetRarities(ctx echo.Context) error {
+	rarities, err := c.Provider.GetRarities()
+	if err != nil {
+		log.Fatal("Failed to get rarities")
+		return err
+	}
+
+	return ctx.JSON(http.StatusOK, types.RarityResponse{
+		Message:    "sucessfully retrieved rarities",
+		HttpStatus: http.StatusOK,
+		Rarities:   *rarities,
 	})
 }

@@ -33,12 +33,12 @@ func (p *MongoDBProvider) Database() (*mongo.Database, error) {
 	return p.Client.Database(p.DatabaseName), nil
 }
 
-func (p *MongoDBProvider) Collection() (*mongo.Collection, error) {
+func (p *MongoDBProvider) Collection(collName string) (*mongo.Collection, error) {
 	if p.Client == nil {
 		return nil, mongo.ErrClientDisconnected
 	}
 
-	return p.Client.Database(p.DatabaseName).Collection(p.CollectionName), nil
+	return p.Client.Database(p.DatabaseName).Collection(collName), nil
 }
 
 func (p *MongoDBProvider) ClearAndLoadDataFromJSON() error {
@@ -49,21 +49,49 @@ func (p *MongoDBProvider) ClearAndLoadDataFromJSON() error {
 		return err
 	}
 
-	collection := p.Client.Database("items").Collection("items")
-	// Drop the collection
-	err = collection.Drop(context.Background())
-	if err != nil {
-		log.Fatalf("Failed to drop: %v", err)
+	itemsList := make([]interface{}, 0, len(items))
+	var rarities = map[string]types.Rarity{}
+	for _, item := range items {
+		itemsList = append(itemsList, item)
+	}
+
+	if err := AddAllItemsToCollection(p, "items", itemsList); err != nil {
+		log.Fatalf("cannot add items to database: %v", err)
 		return err
 	}
 
-	log.Println("Collection cleared successfully.")
+	for _, item := range items {
+		rarities[item.Rarity.Name] = item.Rarity
+	}
 
-	err = insertItemsIntoMongoDB(collection, &items)
-	if err != nil {
-		log.Fatalf("Failed to insert items into MongoDB: %v", err)
+	rarityList := make([]interface{}, 0, len(rarities))
+	for _, rarity := range rarities {
+		rarityList = append(rarityList, rarity)
+	}
+
+	if err := AddAllItemsToCollection(p, "rarity", rarityList); err != nil {
+		log.Fatalf("cannot add rarities to database: %v", err)
 		return err
 	}
-	log.Println("Items successfully inserted into MongoDB")
+
 	return nil
+}
+
+func AddAllItemsToCollection(p *MongoDBProvider, collName string, elements []interface{}) error {
+	coll, err := p.Collection(collName)
+	if err != nil {
+		log.Fatalf("Failed to get collection rarity %v", err)
+		return err
+	}
+
+	log.Printf("Dropping collection %s.", collName)
+	err = coll.Drop(context.Background())
+	if err != nil {
+		log.Fatalf("Failed to drop %s: %v", collName, err)
+		return err
+	}
+
+	log.Printf("Adding %d documents to collection %s.", len(elements), collName)
+	_, err = coll.InsertMany(context.TODO(), elements)
+	return err
 }

@@ -6,11 +6,11 @@ type Provider interface {
 	GetItems() (*[]types.Item, error)
 	GetItemById(uint64) (*types.Item, error)
 	AddItem(*types.Item) (*types.Item, error)
-	GetRarities() (*map[uint64]types.Rarity, error)
-	GetItemTypes() (*map[uint64]types.ItemType, error)
-	GetImages() (*map[uint64]types.Image, error)
-	GetAttributes() (*map[uint64]types.Attribute, error)
-	GetAttributeGroupings() (*map[uint64]types.AttributeGrouping, error)
+	GetRarities() (*[]types.Rarity, error)
+	GetItemTypes() (*[]types.ItemType, error)
+	GetImages() (*[]types.Image, error)
+	GetAttributes() (*[]types.Attribute, error)
+	GetAttributeGroupings() (*[]types.AttributeGrouping, error)
 	ItemNameExistsInDb(string) bool
 	UpdateItem(uint64, *types.Item) (*types.Item, error)
 }

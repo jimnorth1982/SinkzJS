@@ -43,3 +43,9 @@ type ItemsResponse struct {
 	Message    string `json:"message"`
 	HttpStatus int    `json:"http_status"`
 }
+
+type RarityResponse struct {
+	Rarities   []Rarity `json:"rarities"`
+	Message    string   `json:"message"`
+	HttpStatus int      `json:"http_status"`
+}

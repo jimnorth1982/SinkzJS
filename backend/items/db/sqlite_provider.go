@@ -50,23 +50,23 @@ func (p *SqLiteProvider) AddItem(*types.Item) (*types.Item, error) {
 	return &types.Item{}, nil
 }
 
-func (p *SqLiteProvider) GetRarities() (*map[uint64]types.Rarity, error) {
+func (p *SqLiteProvider) GetRarities() (*[]types.Rarity, error) {
 	return nil, nil
 }
 
-func (p *SqLiteProvider) GetItemTypes() (*map[uint64]types.ItemType, error) {
+func (p *SqLiteProvider) GetItemTypes() (*[]types.ItemType, error) {
 	return nil, nil
 }
 
-func (p *SqLiteProvider) GetImages() (*map[uint64]types.Image, error) {
+func (p *SqLiteProvider) GetImages() (*[]types.Image, error) {
 	return nil, nil
 }
 
-func (p *SqLiteProvider) GetAttributes() (*map[uint64]types.Attribute, error) {
+func (p *SqLiteProvider) GetAttributes() (*[]types.Attribute, error) {
 	return nil, nil
 }
 
-func (p *SqLiteProvider) GetAttributeGroupings() (*map[uint64]types.AttributeGrouping, error) {
+func (p *SqLiteProvider) GetAttributeGroupings() (*[]types.AttributeGrouping, error) {
 	return nil, nil
 }
 

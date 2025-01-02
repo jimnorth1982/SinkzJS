@@ -5,7 +5,6 @@ export const resolvers = {
   Query: {
     items: async (_, __, { dataSources }) => {
       const data = await dataSources.itemsAPI.getItems();
-      console.log(data);
       return data;
     },
     item: async (_, { id }, { dataSources }) => {

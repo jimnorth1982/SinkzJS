@@ -60,25 +60,26 @@ func (p *InMemoryProvider) init() error {
 	return nil
 }
 
-func (p *InMemoryProvider) GetExiles() ([]types.Exile, error) {
+func (p *InMemoryProvider) GetExiles() (*[]types.Exile, error) {
 	var exiles []types.Exile
 	for _, exile := range Exiles {
 		exiles = append(exiles, exile)
 	}
-	return exiles, nil
+	return &exiles, nil
 }
 
-func (p *InMemoryProvider) GetExile(id uint64) (types.Exile, error) {
-	return Exiles[id], nil
+func (p *InMemoryProvider) GetExile(id uint64) (*types.Exile, error) {
+	exile := Exiles[id]
+	return &exile, nil
 }
 
-func (p *InMemoryProvider) CreateExile(exile types.Exile) (types.Exile, error) {
-	Exiles[exile.ID] = exile
+func (p *InMemoryProvider) CreateExile(exile *types.Exile) (*types.Exile, error) {
+	Exiles[exile.ID] = *exile
 	return exile, nil
 }
 
-func (p *InMemoryProvider) UpdateExile(id uint64, exile types.Exile) (types.Exile, error) {
-	Exiles[id] = exile
+func (p *InMemoryProvider) UpdateExile(id uint64, exile *types.Exile) (*types.Exile, error) {
+	Exiles[id] = *exile
 	return exile, nil
 }
 

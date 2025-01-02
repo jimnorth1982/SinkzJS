@@ -9,7 +9,7 @@
     },
     "rarity": {
       "id": 1,
-      "name": "Common"
+      "name": "Magic"
     },
     "image": {
       "id": 1,
@@ -95,8 +95,8 @@
       "name": "Staff"
     },
     "rarity": {
-      "id": 3,
-      "name": "Epic"
+      "id": 6,
+      "name": "Corrupted"
     },
     "image": {
       "id": 4,
@@ -125,7 +125,7 @@
     },
     "rarity": {
       "id": 4,
-      "name": "Legendary"
+      "name": "Unique"
     },
     "image": {
       "id": 5,
@@ -154,7 +154,7 @@
     },
     "rarity": {
       "id": 1,
-      "name": "Common"
+      "name": "Magic"
     },
     "image": {
       "id": 6,
@@ -182,8 +182,8 @@
       "name": "Sword"
     },
     "rarity": {
-      "id": 3,
-      "name": "Epic"
+      "id": 6,
+      "name": "Corrupted"
     },
     "image": {
       "id": 7,
@@ -241,7 +241,7 @@
     },
     "rarity": {
       "id": 4,
-      "name": "Legendary"
+      "name": "Unique"
     },
     "image": {
       "id": 9,
@@ -298,8 +298,8 @@
       "name": "Staff"
     },
     "rarity": {
-      "id": 3,
-      "name": "Epic"
+      "id": 6,
+      "name": "Corrupted"
     },
     "image": {
       "id": 11,
@@ -328,7 +328,7 @@
     },
     "rarity": {
       "id": 1,
-      "name": "Common"
+      "name": "Magic"
     },
     "image": {
       "id": 12,
@@ -356,8 +356,8 @@
       "name": "Robe"
     },
     "rarity": {
-      "id": 3,
-      "name": "Epic"
+      "id": 6,
+      "name": "Corrupted"
     },
     "image": {
       "id": 13,
@@ -386,7 +386,7 @@
     },
     "rarity": {
       "id": 1,
-      "name": "Common"
+      "name": "Magic"
     },
     "image": {
       "id": 14,
@@ -415,7 +415,7 @@
     },
     "rarity": {
       "id": 4,
-      "name": "Legendary"
+      "name": "Unique"
     },
     "image": {
       "id": 15,
@@ -443,8 +443,8 @@
       "name": "Axe"
     },
     "rarity": {
-      "id": 3,
-      "name": "Epic"
+      "id": 6,
+      "name": "Corrupted"
     },
     "image": {
       "id": 16,
@@ -473,7 +473,7 @@
     },
     "rarity": {
       "id": 4,
-      "name": "Legendary"
+      "name": "Magic"
     },
     "image": {
       "id": 17,
@@ -502,7 +502,7 @@
     },
     "rarity": {
       "id": 4,
-      "name": "Legendary"
+      "name": "Unique"
     },
     "image": {
       "id": 18,
@@ -531,7 +531,7 @@
     },
     "rarity": {
       "id": 4,
-      "name": "Legendary"
+      "name": "Unique"
     },
     "image": {
       "id": 19,
@@ -560,7 +560,7 @@
     },
     "rarity": {
       "id": 4,
-      "name": "Legendary"
+      "name": "Unique"
     },
     "image": {
       "id": 20,

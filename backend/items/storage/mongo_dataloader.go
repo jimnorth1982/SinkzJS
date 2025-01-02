@@ -1,4 +1,4 @@
-package db
+package storage
 
 import (
 	"context"
@@ -25,7 +25,7 @@ func loadFromFile(filename string) ([]types.Item, error) {
 	return items, nil
 }
 
-func (p *MongoDBProvider) Database() (*mongo.Database, error) {
+func (p *MongoStorageProvider) Database() (*mongo.Database, error) {
 	if p.Client == nil {
 		return nil, mongo.ErrClientDisconnected
 	}
@@ -33,7 +33,7 @@ func (p *MongoDBProvider) Database() (*mongo.Database, error) {
 	return p.Client.Database(p.DatabaseName), nil
 }
 
-func (p *MongoDBProvider) Collection(collName string) (*mongo.Collection, error) {
+func (p *MongoStorageProvider) Collection(collName string) (*mongo.Collection, error) {
 	if p.Client == nil {
 		return nil, mongo.ErrClientDisconnected
 	}
@@ -41,8 +41,8 @@ func (p *MongoDBProvider) Collection(collName string) (*mongo.Collection, error)
 	return p.Client.Database(p.DatabaseName).Collection(collName), nil
 }
 
-func (p *MongoDBProvider) ClearAndLoadDataFromJSON() error {
-	items, err := loadFromFile("/home/jimi/dev/SinkzJS/backend/items/db/data/item_data.json")
+func (p *MongoStorageProvider) ClearAndLoadDataFromJSON() error {
+	items, err := loadFromFile("/home/jimi/dev/SinkzJS/backend/items/storage/data/item_data.json")
 	if err != nil {
 		log.Fatalf("Failed to load items from file: %v", err)
 		return err
@@ -73,7 +73,7 @@ func (p *MongoDBProvider) ClearAndLoadDataFromJSON() error {
 	return nil
 }
 
-func AddElementsToCollection(p *MongoDBProvider, collName string, elements []interface{}) error {
+func AddElementsToCollection(p *MongoStorageProvider, collName string, elements []interface{}) error {
 	coll, err := p.Collection(collName)
 	if err != nil {
 		log.Fatalf("Failed to get collection rarity %v", err)

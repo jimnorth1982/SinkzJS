@@ -13,8 +13,8 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"golang.org/x/term"
 	itemsController "sinkzjs.org/m/v2/items/controller"
-	itemsDb "sinkzjs.org/m/v2/items/db"
 	itemsRoutes "sinkzjs.org/m/v2/items/routes"
+	itemsDb "sinkzjs.org/m/v2/items/storage"
 
 	exilesController "sinkzjs.org/m/v2/exiles/controller"
 	exilesDb "sinkzjs.org/m/v2/exiles/db"
@@ -62,7 +62,7 @@ func login() options.Credential {
 	return options.Credential{Username: username, Password: password}
 }
 
-func setup(mongodbProvider *itemsDb.MongoDBProvider, creds options.Credential) {
+func setup(mongodbProvider *itemsDb.MongoStorageProvider, creds options.Credential) {
 	err := mongodbProvider.Connect(os.Getenv("MONGODB_URI"), creds, 5)
 
 	if err != nil {

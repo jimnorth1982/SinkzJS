@@ -1,4 +1,4 @@
-package db
+package storage
 
 import (
 	"encoding/json"
@@ -22,17 +22,17 @@ var (
 	mu                 sync.RWMutex
 )
 
-type InMemoryProvider struct {
+type FileStorageProvider struct {
 	FileName string
 }
 
-func NewInMemoryProvider(fileName string) *InMemoryProvider {
-	provider := InMemoryProvider{fileName}
+func NewInMemoryProvider(fileName string) *FileStorageProvider {
+	provider := FileStorageProvider{fileName}
 	provider.init()
 	return &provider
 }
 
-func (p *InMemoryProvider) init() error {
+func (p *FileStorageProvider) init() error {
 	mu.Lock()
 	defer mu.Unlock()
 
@@ -74,7 +74,7 @@ func (p *InMemoryProvider) init() error {
 	return nil
 }
 
-func (p *InMemoryProvider) GetItems() (*[]types.Item, error) {
+func (p *FileStorageProvider) GetItems() (*[]types.Item, error) {
 	mu.RLock()
 	defer mu.RUnlock()
 
@@ -89,7 +89,7 @@ func (p *InMemoryProvider) GetItems() (*[]types.Item, error) {
 	return &itemList, nil
 }
 
-func (p *InMemoryProvider) GetItemById(id uint64) (*types.Item, error) {
+func (p *FileStorageProvider) GetItemById(id uint64) (*types.Item, error) {
 	mu.RLock()
 	defer mu.RUnlock()
 
@@ -100,7 +100,7 @@ func (p *InMemoryProvider) GetItemById(id uint64) (*types.Item, error) {
 	return &item, nil
 }
 
-func (p *InMemoryProvider) AddItem(item *types.Item) (*types.Item, error) {
+func (p *FileStorageProvider) AddItem(item *types.Item) (*types.Item, error) {
 	mu.Lock()
 	defer mu.Unlock()
 
@@ -108,7 +108,7 @@ func (p *InMemoryProvider) AddItem(item *types.Item) (*types.Item, error) {
 	return item, nil
 }
 
-func (p *InMemoryProvider) GetRarities() (*[]types.Rarity, error) {
+func (p *FileStorageProvider) GetRarities() (*[]types.Rarity, error) {
 	mu.RLock()
 	defer mu.RUnlock()
 	if len(rarities) == 0 {
@@ -122,7 +122,7 @@ func (p *InMemoryProvider) GetRarities() (*[]types.Rarity, error) {
 	return &list, nil
 }
 
-func (p *InMemoryProvider) GetItemTypes() (*[]types.ItemType, error) {
+func (p *FileStorageProvider) GetItemTypes() (*[]types.ItemType, error) {
 	mu.RLock()
 	defer mu.RUnlock()
 	if len(itemTypes) == 0 {
@@ -136,7 +136,7 @@ func (p *InMemoryProvider) GetItemTypes() (*[]types.ItemType, error) {
 	return &list, nil
 }
 
-func (p *InMemoryProvider) GetImages() (*[]types.Image, error) {
+func (p *FileStorageProvider) GetImages() (*[]types.Image, error) {
 	mu.RLock()
 	defer mu.RUnlock()
 	if len(images) == 0 {
@@ -150,7 +150,7 @@ func (p *InMemoryProvider) GetImages() (*[]types.Image, error) {
 	return &list, nil
 }
 
-func (p *InMemoryProvider) GetAttributes() (*[]types.Attribute, error) {
+func (p *FileStorageProvider) GetAttributes() (*[]types.Attribute, error) {
 	mu.RLock()
 	defer mu.RUnlock()
 	if len(attributes) == 0 {
@@ -164,7 +164,7 @@ func (p *InMemoryProvider) GetAttributes() (*[]types.Attribute, error) {
 	return &list, nil
 }
 
-func (p *InMemoryProvider) GetAttributeGroupings() (*[]types.AttributeGrouping, error) {
+func (p *FileStorageProvider) GetAttributeGroupings() (*[]types.AttributeGrouping, error) {
 	mu.RLock()
 	defer mu.RUnlock()
 	if len(attributeGroupings) == 0 {
@@ -178,7 +178,7 @@ func (p *InMemoryProvider) GetAttributeGroupings() (*[]types.AttributeGrouping, 
 	return &list, nil
 }
 
-func (p *InMemoryProvider) ItemNameExistsInDb(name string) bool {
+func (p *FileStorageProvider) ItemNameExistsInDb(name string) bool {
 	mu.RLock()
 	defer mu.RUnlock()
 
@@ -190,7 +190,7 @@ func (p *InMemoryProvider) ItemNameExistsInDb(name string) bool {
 	return false
 }
 
-func (p *InMemoryProvider) UpdateItem(id uint64, item *types.Item) (*types.Item, error) {
+func (p *FileStorageProvider) UpdateItem(id uint64, item *types.Item) (*types.Item, error) {
 	mu.Lock()
 	defer mu.Unlock()
 
@@ -202,4 +202,4 @@ func (p *InMemoryProvider) UpdateItem(id uint64, item *types.Item) (*types.Item,
 	return item, nil
 }
 
-var _ Provider = (*InMemoryProvider)(nil)
+var _ StorageProvider = (*FileStorageProvider)(nil)

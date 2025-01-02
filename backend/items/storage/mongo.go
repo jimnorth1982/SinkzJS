@@ -1,8 +1,9 @@
-package db
+package storage
 
 import (
 	"context"
 	"log"
+	"log/slog"
 	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -11,19 +12,23 @@ import (
 	"sinkzjs.org/m/v2/items/types"
 )
 
-type MongoDBProvider struct {
+type MongoStorageProvider struct {
 	Client       *mongo.Client
 	DatabaseName string
 	URI          string
+	log          slog.Logger
 }
 
-func NewMongoDBProvider(databaseName string) *MongoDBProvider {
-	return &MongoDBProvider{DatabaseName: databaseName}
+func NewMongoDBProvider(databaseName string) *MongoStorageProvider {
+	return &MongoStorageProvider{
+		DatabaseName: databaseName,
+		log:          *slog.Default().With("area", "MongoDBProvider"),
+	}
 }
 
-func (p *MongoDBProvider) Connect(uri string, creds options.Credential, maxPoolSize uint64) error {
+func (p *MongoStorageProvider) Connect(uri string, creds options.Credential, maxPoolSize uint64) error {
 	if p.Client != nil {
-		log.Printf("Already connected.")
+		p.log.Warn("Already connected.")
 		return nil
 	}
 	clientOptions := options.Client().ApplyURI(uri).SetAuth(creds)
@@ -31,7 +36,7 @@ func (p *MongoDBProvider) Connect(uri string, creds options.Credential, maxPoolS
 	clientOptions.SetMaxPoolSize(maxPoolSize)
 	client, err := connectToMongoDB(clientOptions)
 	if err != nil {
-		log.Fatalf("Failed to connect to MongoDB: %v", err)
+		p.log.Error("Failed to connect to MongoDB")
 		return err
 	}
 	p.Client = client
@@ -59,22 +64,22 @@ func insertAllIntoColl(collection *mongo.Collection, items *[]interface{}) error
 	return err
 }
 
-func (p *MongoDBProvider) GetItems() (*[]types.Item, error) {
+func (p *MongoStorageProvider) GetItems() (*[]types.Item, error) {
 	filter, opts := GetDefaultSortOptionsAndFilter()
 	return GetListFromCollection[types.Item](p, "items", filter, opts)
 }
 
-func (p *MongoDBProvider) GetItemById(id uint64) (*types.Item, error) {
+func (p *MongoStorageProvider) GetItemById(id uint64) (*types.Item, error) {
 	filter := bson.D{{Key: "id", Value: id}}
 	sort := bson.D{}
 	opts := options.FindOne().SetSort(sort)
 	return FindOneFromCollection[types.Item](p, "items", filter, opts)
 }
 
-func (p *MongoDBProvider) AddItem(item *types.Item) (*types.Item, error) {
+func (p *MongoStorageProvider) AddItem(item *types.Item) (*types.Item, error) {
 	coll, err := p.Collection("items")
 	if err != nil {
-		log.Fatalf("Error getting collection: [%s] Error: %v", "items", err)
+		p.log.Error("Error getting collection: [%s] Error: %v", "items", err)
 		return nil, err
 	}
 
@@ -87,12 +92,12 @@ func (p *MongoDBProvider) AddItem(item *types.Item) (*types.Item, error) {
 	return &types.Item{}, nil
 }
 
-func (p *MongoDBProvider) GetRarities() (*[]types.Rarity, error) {
+func (p *MongoStorageProvider) GetRarities() (*[]types.Rarity, error) {
 	filter, opts := GetDefaultSortOptionsAndFilter()
 	return GetListFromCollection[types.Rarity](p, "rarity", filter, opts)
 }
 
-func (p *MongoDBProvider) GetItemTypes() (*[]types.ItemType, error) {
+func (p *MongoStorageProvider) GetItemTypes() (*[]types.ItemType, error) {
 	filter, opts := GetDefaultSortOptionsAndFilter()
 	return GetListFromCollection[types.ItemType](p, "item_types", filter, opts)
 }
@@ -104,7 +109,7 @@ func GetDefaultSortOptionsAndFilter() (bson.D, *options.FindOptions) {
 	return filter, opts
 }
 
-func GetListFromCollection[T interface{}](provider *MongoDBProvider, collName string, filter bson.D, opts *options.FindOptions) (*[]T, error) {
+func GetListFromCollection[T interface{}](provider *MongoStorageProvider, collName string, filter bson.D, opts *options.FindOptions) (*[]T, error) {
 	coll, err := provider.Collection(collName)
 	if err != nil {
 		log.Fatalf("Error finding collection: %s %v", collName, err)
@@ -124,7 +129,7 @@ func GetListFromCollection[T interface{}](provider *MongoDBProvider, collName st
 	return &results, nil
 }
 
-func FindOneFromCollection[T interface{}](provider *MongoDBProvider, collName string, filter bson.D, opts *options.FindOneOptions) (*T, error) {
+func FindOneFromCollection[T interface{}](provider *MongoStorageProvider, collName string, filter bson.D, opts *options.FindOneOptions) (*T, error) {
 	collection, err := provider.Collection("items")
 	if err != nil {
 		log.Fatalf("Error finding collection: items %v", err)
@@ -145,27 +150,27 @@ func FindOneFromCollection[T interface{}](provider *MongoDBProvider, collName st
 	return &item, nil
 }
 
-func (p *MongoDBProvider) GetImages() (*[]types.Image, error) {
+func (p *MongoStorageProvider) GetImages() (*[]types.Image, error) {
 	return nil, nil
 }
 
-func (p *MongoDBProvider) GetAttributes() (*[]types.Attribute, error) {
+func (p *MongoStorageProvider) GetAttributes() (*[]types.Attribute, error) {
 	return nil, nil
 }
 
-func (p *MongoDBProvider) GetAttributeGroupings() (*[]types.AttributeGrouping, error) {
+func (p *MongoStorageProvider) GetAttributeGroupings() (*[]types.AttributeGrouping, error) {
 	return nil, nil
 }
 
-func (p *MongoDBProvider) ItemNameExistsInDb(string) bool {
+func (p *MongoStorageProvider) ItemNameExistsInDb(string) bool {
 	return true
 }
 
-func (p *MongoDBProvider) UpdateItem(uint64, *types.Item) (*types.Item, error) {
+func (p *MongoStorageProvider) UpdateItem(uint64, *types.Item) (*types.Item, error) {
 	return &types.Item{}, nil
 }
 
-func (p *MongoDBProvider) CleanupConnection() {
+func (p *MongoStorageProvider) CleanupConnection() {
 	defer func() {
 		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 		defer cancel()
@@ -175,4 +180,4 @@ func (p *MongoDBProvider) CleanupConnection() {
 	}()
 }
 
-var _ Provider = (*MongoDBProvider)(nil)
+var _ StorageProvider = (*MongoStorageProvider)(nil)

@@ -2,53 +2,52 @@ package controller
 
 import (
 	"fmt"
-	"log"
+	"log/slog"
 	"net/http"
 	"strconv"
 
 	"github.com/labstack/echo/v4"
 	"gopkg.in/go-playground/validator.v9"
-	"sinkzjs.org/m/v2/items/db"
+	"sinkzjs.org/m/v2/items/storage"
 	"sinkzjs.org/m/v2/items/types"
 )
 
-type Controller struct {
-	Provider db.Provider
+type ItemsController struct {
+	StorageProvider storage.StorageProvider
+	log             slog.Logger
 }
 
-func NewController(Provider db.Provider) *Controller {
-	return &Controller{Provider: Provider}
+func NewController(Provider storage.StorageProvider) *ItemsController {
+	return &ItemsController{
+		StorageProvider: Provider,
+		log:             *slog.Default().With("area", "ItemsController"),
+	}
 }
 
-func (c *Controller) GetItems(ctx echo.Context) error {
-	items, err := c.Provider.GetItems()
-
-	if err != nil {
-		return ctx.JSON(http.StatusBadRequest, types.ItemsResponse{
-			Message:    err.Error(),
-			HttpStatus: http.StatusBadRequest,
-			Items:      nil,
+func (c *ItemsController) GetItems(ctx echo.Context) error {
+	if items, err := c.StorageProvider.GetItems(); err != nil {
+		c.log.Error(err.Error())
+		return err
+	} else {
+		return ctx.JSON(http.StatusOK, types.ItemsResponse{
+			Message:    "items retrieved successfully",
+			HttpStatus: http.StatusOK,
+			Items:      *items,
 		})
 	}
-
-	return ctx.JSON(http.StatusOK, types.ItemsResponse{
-		Message:    "items retrieved successfully",
-		HttpStatus: http.StatusOK,
-		Items:      *items,
-	})
 }
 
-func (c *Controller) GetItemById(ctx echo.Context) error {
+func (c *ItemsController) GetItemById(ctx echo.Context) error {
 	id, err := strconv.ParseUint(ctx.Param("id"), 10, 64)
 	if err != nil {
-		fmt.Println(err.Error())
+		c.log.Error(err.Error())
 		return ctx.JSON(http.StatusBadRequest, types.ItemsResponse{
 			Message:    fmt.Sprintf("invalid format for parameter [Id]: %s", ctx.Param("id")),
 			HttpStatus: http.StatusBadRequest,
 			Items:      nil,
 		})
 	}
-	item, err := c.Provider.GetItemById(id)
+	item, err := c.StorageProvider.GetItemById(id)
 
 	if err != nil {
 		return ctx.JSON(http.StatusNotFound, types.ItemsResponse{
@@ -65,7 +64,7 @@ func (c *Controller) GetItemById(ctx echo.Context) error {
 	})
 }
 
-func (c *Controller) AddItem(ctx echo.Context) error {
+func (c *ItemsController) AddItem(ctx echo.Context) error {
 	var item = new(types.Item)
 
 	if err := ctx.Bind(item); err != nil {
@@ -87,7 +86,7 @@ func (c *Controller) AddItem(ctx echo.Context) error {
 		})
 	}
 
-	added_item, err := c.Provider.AddItem(item)
+	added_item, err := c.StorageProvider.AddItem(item)
 
 	if err != nil {
 		return ctx.JSON(http.StatusBadRequest, types.ItemsResponse{
@@ -104,10 +103,10 @@ func (c *Controller) AddItem(ctx echo.Context) error {
 	})
 }
 
-func (c *Controller) UpdateItem(ctx echo.Context) error {
+func (c *ItemsController) UpdateItem(ctx echo.Context) error {
 	id, err := strconv.ParseUint(ctx.Param("id"), 10, 64)
 	if err != nil {
-		fmt.Println(err.Error())
+		c.log.Error(err.Error())
 		return ctx.JSON(http.StatusBadRequest, types.ItemsResponse{
 			Message:    fmt.Sprintf("invalid format for parameter [Id]: %s", ctx.Param("id")),
 			HttpStatus: http.StatusBadRequest,
@@ -124,7 +123,7 @@ func (c *Controller) UpdateItem(ctx echo.Context) error {
 		})
 	}
 
-	updated_item, err := c.Provider.UpdateItem(id, &item)
+	updated_item, err := c.StorageProvider.UpdateItem(id, &item)
 
 	if err != nil {
 		return ctx.JSON(http.StatusBadRequest, types.ItemsResponse{
@@ -141,10 +140,10 @@ func (c *Controller) UpdateItem(ctx echo.Context) error {
 	})
 }
 
-func (c *Controller) GetRarities(ctx echo.Context) error {
-	rarities, err := c.Provider.GetRarities()
+func (c *ItemsController) GetRarities(ctx echo.Context) error {
+	rarities, err := c.StorageProvider.GetRarities()
 	if err != nil {
-		log.Fatal("Failed to get rarities")
+		c.log.Error("Failed to get rarities")
 		return err
 	}
 

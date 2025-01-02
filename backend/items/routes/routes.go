@@ -5,7 +5,7 @@ import (
 	"sinkzjs.org/m/v2/items/controller"
 )
 
-func Routes(controller controller.Controller, e *echo.Echo) {
+func Routes(controller controller.ItemsController, e *echo.Echo) {
 	e.Group("i")
 
 	e.GET("/items", controller.GetItems).Name = "get-items"

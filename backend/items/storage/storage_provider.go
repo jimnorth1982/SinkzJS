@@ -1,8 +1,8 @@
-package db
+package storage
 
 import "sinkzjs.org/m/v2/items/types"
 
-type Provider interface {
+type StorageProvider interface {
 	GetItems() (*[]types.Item, error)
 	GetItemById(uint64) (*types.Item, error)
 	AddItem(*types.Item) (*types.Item, error)

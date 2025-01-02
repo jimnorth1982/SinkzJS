@@ -7,9 +7,11 @@ import (
 
 func Routes(controller controller.Controller, e *echo.Echo) {
 	e.Group("i")
-	e.GET("/items", controller.GetAllItems).Name = "get-all-items"
+
+	e.GET("/items", controller.GetItems).Name = "get-items"
 	e.GET("/items/:id", controller.GetItemById).Name = "get-item-by-id"
 	e.POST("/items", controller.AddItem).Name = "add-item"
 	e.PUT("/items/:id", controller.UpdateItem).Name = "update-item"
+
 	e.GET("/items/rarities", controller.GetRarities).Name = "get-rarities"
 }

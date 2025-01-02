@@ -20,7 +20,7 @@ func NewController(Provider db.Provider) *Controller {
 	return &Controller{Provider: Provider}
 }
 
-func (c *Controller) GetAllItems(ctx echo.Context) error {
+func (c *Controller) GetItems(ctx echo.Context) error {
 	items, err := c.Provider.GetItems()
 
 	if err != nil {

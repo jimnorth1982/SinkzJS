@@ -10,7 +10,7 @@ import (
 	"sinkzjs.org/m/v2/items/types"
 )
 
-func loadItemsFromFile(filename string) ([]types.Item, error) {
+func loadFromFile(filename string) ([]types.Item, error) {
 	data, err := os.ReadFile(filename)
 	if err != nil {
 		return nil, err
@@ -42,8 +42,7 @@ func (p *MongoDBProvider) Collection(collName string) (*mongo.Collection, error)
 }
 
 func (p *MongoDBProvider) ClearAndLoadDataFromJSON() error {
-	// Load items from JSON file
-	items, err := loadItemsFromFile("/home/jimi/dev/SinkzJS/backend/items/db/data/item_data.json")
+	items, err := loadFromFile("/home/jimi/dev/SinkzJS/backend/items/db/data/item_data.json")
 	if err != nil {
 		log.Fatalf("Failed to load items from file: %v", err)
 		return err
@@ -53,14 +52,6 @@ func (p *MongoDBProvider) ClearAndLoadDataFromJSON() error {
 	var rarities = map[string]types.Rarity{}
 	for _, item := range items {
 		itemsList = append(itemsList, item)
-	}
-
-	if err := AddAllItemsToCollection(p, "items", itemsList); err != nil {
-		log.Fatalf("cannot add items to database: %v", err)
-		return err
-	}
-
-	for _, item := range items {
 		rarities[item.Rarity.Name] = item.Rarity
 	}
 
@@ -69,7 +60,12 @@ func (p *MongoDBProvider) ClearAndLoadDataFromJSON() error {
 		rarityList = append(rarityList, rarity)
 	}
 
-	if err := AddAllItemsToCollection(p, "rarity", rarityList); err != nil {
+	if err := AddElementsToCollection(p, "items", itemsList); err != nil {
+		log.Fatalf("cannot add items to database: %v", err)
+		return err
+	}
+
+	if err := AddElementsToCollection(p, "rarity", rarityList); err != nil {
 		log.Fatalf("cannot add rarities to database: %v", err)
 		return err
 	}
@@ -77,7 +73,7 @@ func (p *MongoDBProvider) ClearAndLoadDataFromJSON() error {
 	return nil
 }
 
-func AddAllItemsToCollection(p *MongoDBProvider, collName string, elements []interface{}) error {
+func AddElementsToCollection(p *MongoDBProvider, collName string, elements []interface{}) error {
 	coll, err := p.Collection(collName)
 	if err != nil {
 		log.Fatalf("Failed to get collection rarity %v", err)

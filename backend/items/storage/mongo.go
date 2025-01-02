@@ -2,6 +2,7 @@ package storage
 
 import (
 	"context"
+	"errors"
 	"log"
 	"log/slog"
 	"time"
@@ -17,6 +18,13 @@ type MongoStorageProvider struct {
 	DatabaseName string
 	URI          string
 	log          slog.Logger
+}
+
+type MongoQuery struct {
+	provider *MongoStorageProvider
+	collName string
+	filter   bson.D
+	opts     *options.FindOptions
 }
 
 func NewMongoStorageProvider(databaseName string) *MongoStorageProvider {
@@ -66,7 +74,7 @@ func insertAllIntoColl(collection *mongo.Collection, items *[]interface{}) error
 
 func (p *MongoStorageProvider) GetItems() (*[]types.Item, error) {
 	filter, opts := GetDefaultSortOptionsAndFilter()
-	return GetListFromCollection[types.Item](p, "items", filter, opts)
+	return GetListFromCollection[types.Item](&MongoQuery{p, "items", filter, opts})
 }
 
 func (p *MongoStorageProvider) GetItemById(id uint64) (*types.Item, error) {
@@ -94,12 +102,12 @@ func (p *MongoStorageProvider) AddItem(item *types.Item) (*types.Item, error) {
 
 func (p *MongoStorageProvider) GetRarities() (*[]types.Rarity, error) {
 	filter, opts := GetDefaultSortOptionsAndFilter()
-	return GetListFromCollection[types.Rarity](p, "rarity", filter, opts)
+	return GetListFromCollection[types.Rarity](&MongoQuery{p, "rarity", filter, opts})
 }
 
 func (p *MongoStorageProvider) GetItemTypes() (*[]types.ItemType, error) {
 	filter, opts := GetDefaultSortOptionsAndFilter()
-	return GetListFromCollection[types.ItemType](p, "item_types", filter, opts)
+	return GetListFromCollection[types.ItemType](&MongoQuery{p, "item_types", filter, opts})
 }
 
 func GetDefaultSortOptionsAndFilter() (bson.D, *options.FindOptions) {
@@ -109,16 +117,16 @@ func GetDefaultSortOptionsAndFilter() (bson.D, *options.FindOptions) {
 	return filter, opts
 }
 
-func GetListFromCollection[T interface{}](provider *MongoStorageProvider, collName string, filter bson.D, opts *options.FindOptions) (*[]T, error) {
-	coll, err := provider.Collection(collName)
+func GetListFromCollection[T interface{}](query *MongoQuery) (*[]T, error) {
+	coll, err := query.provider.Collection(query.collName)
 	if err != nil {
-		log.Fatalf("Error finding collection: %s %v", collName, err)
+		log.Fatalf("Error finding collection: %s %v", query.collName, err)
 		return nil, err
 	}
 
-	cursor, err := coll.Find(context.TODO(), filter, opts)
+	cursor, err := coll.Find(context.TODO(), query.filter, query.opts)
 	if err != nil {
-		log.Fatalf("Error finding data in collection: %s %v", collName, err)
+		log.Fatalf("Error finding data in collection: %s %v", query.collName, err)
 		return nil, err
 	}
 	var results []T
@@ -151,15 +159,15 @@ func FindOneFromCollection[T interface{}](provider *MongoStorageProvider, collNa
 }
 
 func (p *MongoStorageProvider) GetImages() (*[]types.Image, error) {
-	return nil, nil
+	return nil, errors.New("Unsupported")
 }
 
 func (p *MongoStorageProvider) GetAttributes() (*[]types.Attribute, error) {
-	return nil, nil
+	return nil, errors.New("Unsupported")
 }
 
 func (p *MongoStorageProvider) GetAttributeGroupings() (*[]types.AttributeGrouping, error) {
-	return nil, nil
+	return nil, errors.New("Unsupported")
 }
 
 func (p *MongoStorageProvider) ItemNameExistsInDb(string) bool {
@@ -167,7 +175,7 @@ func (p *MongoStorageProvider) ItemNameExistsInDb(string) bool {
 }
 
 func (p *MongoStorageProvider) UpdateItem(uint64, *types.Item) (*types.Item, error) {
-	return &types.Item{}, nil
+	return &types.Item{}, errors.New("Unsupported")
 }
 
 func (p *MongoStorageProvider) CleanupConnection() {

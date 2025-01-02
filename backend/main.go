@@ -34,7 +34,7 @@ func main() {
 func restAPI() {
 	e := echo.New()
 
-	mongodbProvider := itemsDb.NewMongoDBProvider("items")
+	mongodbProvider := itemsDb.NewMongoStorageProvider("items")
 	setup(mongodbProvider, login())
 	itemsController := *itemsController.NewController(mongodbProvider)
 	itemsRoutes.Routes(itemsController, e)

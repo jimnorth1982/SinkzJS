@@ -19,7 +19,7 @@ type MongoStorageProvider struct {
 	log          slog.Logger
 }
 
-func NewMongoDBProvider(databaseName string) *MongoStorageProvider {
+func NewMongoStorageProvider(databaseName string) *MongoStorageProvider {
 	return &MongoStorageProvider{
 		DatabaseName: databaseName,
 		log:          *slog.Default().With("area", "MongoDBProvider"),

@@ -6,7 +6,7 @@ type Storage struct {
 	Provider StorageProvider
 }
 
-func NewDatabase(provider StorageProvider) *Storage {
+func NewStorage(provider StorageProvider) *Storage {
 	return &Storage{Provider: provider}
 }
 

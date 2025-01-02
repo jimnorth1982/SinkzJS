@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"io"
-	"log"
+	"log/slog"
 	"os"
 	"sync"
 
@@ -24,10 +24,14 @@ var (
 
 type FileStorageProvider struct {
 	FileName string
+	log      slog.Logger
 }
 
-func NewInMemoryProvider(fileName string) *FileStorageProvider {
-	provider := FileStorageProvider{fileName}
+func NewFileStorageProvider(fileName string) *FileStorageProvider {
+	provider := FileStorageProvider{
+		FileName: fileName,
+		log:      *slog.Default().With("area", "FileStorageProvider"),
+	}
 	provider.init()
 	return &provider
 }
@@ -40,11 +44,11 @@ func (p *FileStorageProvider) init() error {
 		return errors.New("data already loaded")
 	}
 
-	log.Println("Loading data from file:", p.FileName)
+	p.log.Info("Loading data from file " + p.FileName)
 	jsonFile, err := os.Open(p.FileName)
 
 	if err != nil {
-		log.Fatal(err)
+		p.log.Error(err.Error())
 		return err
 	}
 	defer jsonFile.Close()
@@ -53,7 +57,7 @@ func (p *FileStorageProvider) init() error {
 
 	var itemsArr []types.Item
 	if err := json.Unmarshal(byteValue, &itemsArr); err != nil {
-		log.Fatal(err)
+		p.log.Error(err.Error())
 		return err
 	}
 
@@ -70,7 +74,7 @@ func (p *FileStorageProvider) init() error {
 		}
 	}
 	loaded = true
-	log.Println("Data loaded")
+	p.log.Info("Data loaded")
 	return nil
 }
 

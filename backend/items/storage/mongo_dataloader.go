@@ -3,8 +3,8 @@ package storage
 import (
 	"context"
 	"encoding/json"
-	"log"
 	"os"
+	"strconv"
 
 	"go.mongodb.org/mongo-driver/mongo"
 	"sinkzjs.org/m/v2/items/types"
@@ -44,7 +44,7 @@ func (p *MongoStorageProvider) Collection(collName string) (*mongo.Collection, e
 func (p *MongoStorageProvider) ClearAndLoadDataFromJSON() error {
 	items, err := loadFromFile("/home/jimi/dev/SinkzJS/backend/items/storage/data/item_data.json")
 	if err != nil {
-		log.Fatalf("Failed to load items from file: %v", err)
+		p.log.Error(err.Error())
 		return err
 	}
 
@@ -61,12 +61,12 @@ func (p *MongoStorageProvider) ClearAndLoadDataFromJSON() error {
 	}
 
 	if err := AddElementsToCollection(p, "items", itemsList); err != nil {
-		log.Fatalf("cannot add items to database: %v", err)
+		p.log.Error(err.Error())
 		return err
 	}
 
 	if err := AddElementsToCollection(p, "rarity", rarityList); err != nil {
-		log.Fatalf("cannot add rarities to database: %v", err)
+		p.log.Error(err.Error())
 		return err
 	}
 
@@ -76,18 +76,18 @@ func (p *MongoStorageProvider) ClearAndLoadDataFromJSON() error {
 func AddElementsToCollection(p *MongoStorageProvider, collName string, elements []interface{}) error {
 	coll, err := p.Collection(collName)
 	if err != nil {
-		log.Fatalf("Failed to get collection rarity %v", err)
+		p.log.Error(err.Error())
 		return err
 	}
 
-	log.Printf("Dropping collection %s.", collName)
+	p.log.Info("Dropping collection " + collName)
 	err = coll.Drop(context.Background())
 	if err != nil {
-		log.Fatalf("Failed to drop %s: %v", collName, err)
+		p.log.Error(err.Error())
 		return err
 	}
 
-	log.Printf("Adding %d documents to collection %s.", len(elements), collName)
+	p.log.Info("Adding " + strconv.Itoa(len(elements)) + " documents to collection " + collName)
 	_, err = coll.InsertMany(context.TODO(), elements)
 	return err
 }

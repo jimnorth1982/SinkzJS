@@ -16,7 +16,7 @@ type SqLiteStorageProvider struct {
 	sqlitedb      *sql.DB
 }
 
-func NewSqlite3Provider(DBFileName string, TimeoutMillis int, TTLMillis int) *SqLiteStorageProvider {
+func NewSqLiteStorageProvider(DBFileName string, TimeoutMillis int, TTLMillis int) *SqLiteStorageProvider {
 	conn := Connect(DBFileName)
 	provider := &SqLiteStorageProvider{DBFileName, TimeoutMillis, TTLMillis, conn}
 	provider.init()
